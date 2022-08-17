@@ -28,32 +28,24 @@ public class SecutiryFilterChain {
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
     @Bean
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        // http
-        //         .authorizeRequests()
-        //         // .antMatchers("/").hasAnyRole("USER") // 인증 영역 설정
-        //         .anyRequest().permitAll() // 익명 영역
-        //         .and()
-        //         .formLogin()
-        //         .defaultSuccessUrl("/user", true)
-        //         .permitAll()
-        //         .and();
-        // return http.build();
+        
+        http.formLogin().loginPage("/login").permitAll();
+
+        http.formLogin().loginProcessingUrl("/login");
         http
-                // .httpBasic()
-                // .and()
                 .authorizeRequests()
-                .antMatchers("/**", "/static/css/**", "/static/img/**",
-                        "/static/js/**", "/static/**", "/**/*", "/room")
+                .antMatchers("/**","/static/css/**", "/static/img/**",
+                        "/static/js/**", "/static/**", "/**/*")
                 .permitAll()
-                // .antMatchers("/api/login").authenticated()
                 .anyRequest().authenticated()
                 .and()
                 .csrf().disable();
+
         return http.build();
+        
     }
     
     

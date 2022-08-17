@@ -25,8 +25,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.example.user.domain.User;
-import com.example.user.domain.domain;
-import com.example.user.repository.DomainRepository;
 import com.example.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -39,7 +37,6 @@ public class UserController {
 
     private final PasswordEncoder passwordEncoder;
     private final UserService userService;
-    private final DomainRepository domainRepository;
     @GetMapping("/home")
     @ResponseBody
     public String home() {

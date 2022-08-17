@@ -8,4 +8,5 @@ import com.example.user.domain.Board;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
     List<Board> findByType(String type);
+
 }

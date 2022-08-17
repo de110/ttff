@@ -11,21 +11,36 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Entity
 @Getter
 @Setter
 @NoArgsConstructor
-public class domain {
+@Entity
+public class ChatMessage {
+
+    public enum MessageType{
+        ENTER,TALK,JOIN
+    }
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column
-    private String title;
+    private MessageType type;
+
+    @Column
+    private String roomId;
+    // 보내는 사람
+    @Column
+    private String sender;
+    // 내용
+    @Column
+    private String message;
 
     @Builder
-    public domain(String title) {
-        this.title = title;
+    public ChatMessage(String roomId, String sender, String message) {
+        this.roomId = roomId;
+        this.sender = sender;
+        this.message = message;
     }
-
+    
 }
