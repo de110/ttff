@@ -13,25 +13,35 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Region {
+public class Regions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Long dong_cd;
 
     @Column
-    private String si;
+    private String sido_nm;
 
     @Column
-    private String gungu;
+    private String sigungu_nm;
 
     @Column
-    private String dong;
+    private String dong_nm;
+
+    @Column
+    private Long dong_cd2;
+
+    @Column
+    private String dong_nm2;
+
+    @Column
+    private String base_year;
+
 
     @Builder
-    public Region(String si, String gungu, String dong) {
-        this.si = si;
-        this.gungu = gungu;
-        this.dong = dong;
+    public Regions(String sido_nm, String sigungu_nm, String dong_nm) {
+        this.sido_nm = sido_nm;
+        this.sigungu_nm = sigungu_nm;
+        this.dong_nm = dong_nm;
     }
 }

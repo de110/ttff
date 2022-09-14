@@ -66,7 +66,7 @@ public class ChatRoomController {
     // 채팅방 생성
     @PostMapping("/room")
     @ResponseBody
-    public ChatRoom create(@RequestBody ChatRoom chatRoom ) {
+    public ChatRoom create(ChatRoom chatRoom) {
         return chatService.create(chatRoom);
     }
 
@@ -81,6 +81,13 @@ public class ChatRoomController {
     public void deleteChatRoom(@RequestParam String roomId) {
         chatService.deleteChatRoom(roomId);
     }
+
+    @GetMapping("/room/enter/{roomId}")
+    public String roomDetail(@PathVariable String roomId) {
+        // model.addAttribute("roomId", roomId);
+        return roomId;
+    }
+
 
     
 }

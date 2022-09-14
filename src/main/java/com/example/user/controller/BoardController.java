@@ -68,26 +68,10 @@ public class BoardController {
 
     }
 
-
+    // 게시글 선택 시
     @GetMapping("/{type}")
-    @ResponseBody
-    public Board getBoardbyId(@PathVariable("type") String type,@RequestParam Long id, @RequestBody Board board) {
-        
-        // Optional<Board> boardid = boardRepository.findById(id);
-        // Board board = new Board();
-        // if (boardid.get().getType().equals(type)) {
-        //     board = boardid.get();
-        //     // return true;
-        // }
-        //     return board;
-        // Optional<User> user = userRepository.findById(1L);
-        // Board.builder().title("title1").contents("contents1").user(user.get()).build();
-        // board = Board.builder().title(board.getTitle()).rule(board.getRule()).type(board.getType())
-        //         .start(board.getStart()).end(board.getEnd()).user(user.get()).build();
-        // boardRepository.save(board);
+    public Board getBoardbyId(@PathVariable("type") String type,@RequestParam Long id) {
         Optional<Board> boards = boardRepository.findById(id);
-        // Board bd= new Board();
-        // bd = boards.get();
         return boards.get();
     }
     
