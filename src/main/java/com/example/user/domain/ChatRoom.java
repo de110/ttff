@@ -30,7 +30,7 @@ public class ChatRoom {
     // private String roomId;
 
     @Column
-    private String roomname;
+    private String roomName;
 
     // @Column
     // private String host;
@@ -46,7 +46,7 @@ public class ChatRoom {
     public static ChatRoom create(String name,String inviteUrl, User user) {
         ChatRoom room = new ChatRoom();
         // room.roomId = UUID.randomUUID().toString();
-        room.roomname = name;
+        room.roomName = name;
         room.user = user;
         // room.host = host;
         // room.guest = guest;
@@ -57,7 +57,7 @@ public class ChatRoom {
     @Builder
     public ChatRoom(String roomname, String inviteUrl,User user) {
         // this.roomId = roomId;
-        this.roomname = roomname;
+        this.roomName = roomname;
         this.user = user;
         // this.host = host;
         // this.guest = guest;

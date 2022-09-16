@@ -1,5 +1,7 @@
 package com.example.user.config;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnWebApplication;
 import org.springframework.boot.autoconfigure.security.ConditionalOnDefaultWebSecurity;
@@ -15,14 +17,33 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+import lombok.RequiredArgsConstructor;
+
 @Configuration
-@EnableWebSecurity
+@EnableWebSecurity(debug = true)
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @ConditionalOnDefaultWebSecurity
 @ConditionalOnWebApplication
+@RequiredArgsConstructor
 public class SecutiryFilterChain {
+    @Bean
+	CorsConfigurationSource corsConfigurationSource() {
+		CorsConfiguration configuration = new CorsConfiguration();
+
+		configuration.addAllowedOriginPattern("*");
+		configuration.addAllowedMethod("*");
+		configuration.addAllowedHeader("*");
+		configuration.setAllowCredentials(true);
+		
+		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+		source.registerCorsConfiguration("/**", configuration);
+		return source;
+	}
 
     @Bean
     PasswordEncoder passwordEncoder() {
@@ -32,29 +53,34 @@ public class SecutiryFilterChain {
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         
-        http.formLogin().loginPage("/login").permitAll();
+        // http.formLogin().loginPage("/login").permitAll();
 
-        http.formLogin().loginProcessingUrl("/login");
-        http
+        // http.formLogin().loginProcessingUrl("/login");
+        // http.httpBasic().disable().cors().and()
+        //         .authorizeRequests()
+        //         .antMatchers("/**","/static/css/**", "/static/img/**",
+        //                 "/static/js/**", "/static/**", "/**/*")
+        //         .permitAll();
+        //         // .anyRequest().authenticated();
+        // http.csrf().disable();
+
+        http.httpBasic()
+                .disable().cors().and()
                 .authorizeRequests()
-                .antMatchers("/**","/static/css/**", "/static/img/**",
-                        "/static/js/**", "/static/**", "/**/*")
-                .permitAll()
-                .anyRequest().authenticated()
+                .antMatchers("/").permitAll()
+                .antMatchers("/user").permitAll()
                 .and()
-                .csrf().disable();
+                .formLogin()
+                .loginPage("/user").permitAll()
+                .usernameParameter("userName")
+                .and()
+                .logout()
+                .invalidateHttpSession(true)
+                .deleteCookies("JSESSIONID")
+                .permitAll();
 
         return http.build();
         
     }
     
-    
-    // public void configure(AuthenticationManagerBuilder auth) throws Exception {
-    // auth.inMemoryAuthentication()
-    // .withUser(User.builder()
-    // .username("user1")
-    // .password(passwordEncoder().encode("1234"))
-    // .roles("USER"));
-
-    // }
 }

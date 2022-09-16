@@ -40,15 +40,14 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/chat")
 public class ChatRoomController {
     private final ChatService chatService;
-    private Map<String, ChatRoom> chatRooms;
-    private final UserRepository userRepository;
+    // private Map<String, ChatRoom> chatRooms;
+    // private final UserRepository userRepository;
 
-
-    @PostConstruct
-    // 의존관게 주입완료되면 실행되는 코드
-    private void init() {
-        chatRooms = new LinkedHashMap<>();
-    }
+    // @PostConstruct
+    // // 의존관게 주입완료되면 실행되는 코드
+    // private void init() {
+    //     chatRooms = new LinkedHashMap<>();
+    // }
 
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
@@ -59,7 +58,7 @@ public class ChatRoomController {
 
     @GetMapping("/room")
     @ResponseBody
-    public List<ChatRoom> roomname(@RequestParam(value="id") Long id) {
+    public List<ChatRoom> roomname(@RequestParam(value = "id") Long id) {
         return chatService.findByRoomId(id);
     }
 
@@ -82,12 +81,17 @@ public class ChatRoomController {
         chatService.deleteChatRoom(roomId);
     }
 
-    @GetMapping("/room/enter/{roomId}")
-    public String roomDetail(@PathVariable String roomId) {
+    // @GetMapping("/room/enter/{roomId}")
+    // public String roomDetail(@PathVariable String roomId) {
+    //     // model.addAttribute("roomId", roomId);
+    //     return roomId;
+    // }
+
+    @GetMapping
+    @ResponseBody
+    public List<ChatRoom> roomDetail(@RequestParam Long roomId) {
         // model.addAttribute("roomId", roomId);
-        return roomId;
+        // ChatRoom chatRoom = new ChatRoom();
+        return chatService.findByRoomId(roomId);
     }
-
-
-    
 }

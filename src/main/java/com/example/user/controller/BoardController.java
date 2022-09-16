@@ -7,6 +7,7 @@ import java.util.Optional;
 import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -49,7 +50,7 @@ public class BoardController {
                 .start(board.getStart()).end(board.getEnd()).user(user.get()).build();
         return boardRepository.save(board);
     }
-
+    
     // 카테고리로 검색
     @GetMapping("/api/{type}")
     public List<Board> getBoardbytype(@PathVariable("type") String type) {
