@@ -74,15 +74,14 @@ public class UserController {
         return userService.saveUser(user);
     }
 
-    @GetMapping("/user")
-    public UserDetails login(@RequestParam String userName) throws UsernameNotFoundException {
-        return userService.loadUserByUsername(userName);
-    }
-    // @CrossOrigin
     // @GetMapping("/user")
-    // public String login(@RequestBody User user) throws UsernameNotFoundException {
-    //     userService.loadUserByUsername(user.getUserName());
-    //     return user.getUserName();
+    // public UserDetails login(@RequestParam String userName) throws UsernameNotFoundException {
+    //     return userService.loadUserByUsername(userName);
+    // }
+    // // @CrossOrigin
+    // @PostMapping("/signin")
+    // public UserDetails login(@RequestBody User user) throws UsernameNotFoundException {
+    //     return userService.loadUserByUsername(user.getUserName());
     // }
 
     @GetMapping("/loging")
