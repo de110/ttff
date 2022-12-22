@@ -37,8 +37,8 @@ public class BoardController {
     // @GetMapping("/boards")
     // @ResponseBody
     // public List<Board> getBoards() {
-    //     // Board board = boardDTO.toEntity();
-    //     return boardRepository.findAll();
+    // // Board board = boardDTO.toEntity();
+    // return boardRepository.findAll();
     // }
 
     @PostMapping("/board")
@@ -50,7 +50,7 @@ public class BoardController {
                 .start(board.getStart()).end(board.getEnd()).user(user.get()).build();
         return boardRepository.save(board);
     }
-    
+
     // 카테고리로 검색
     @GetMapping("/api/{type}")
     public List<Board> getBoardbytype(@PathVariable("type") String type) {
@@ -60,6 +60,7 @@ public class BoardController {
         return board;
 
     }
+
     @GetMapping("/api")
     public List<Board> getBoardbytype() {
         List<Board> board = new ArrayList<Board>();
@@ -71,9 +72,9 @@ public class BoardController {
 
     // 게시글 선택 시
     @GetMapping("/{type}")
-    public Board getBoardbyId(@PathVariable("type") String type,@RequestParam Long id) {
+    public Board getBoardbyId(@PathVariable("type") String type, @RequestParam Long id) {
         Optional<Board> boards = boardRepository.findById(id);
         return boards.get();
     }
-    
+
 }

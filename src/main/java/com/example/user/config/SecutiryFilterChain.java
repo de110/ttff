@@ -32,6 +32,8 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 
+import com.example.user.service.UserService;
+
 import lombok.RequiredArgsConstructor;
 
 @Configuration
@@ -41,52 +43,52 @@ import lombok.RequiredArgsConstructor;
 @ConditionalOnWebApplication
 @RequiredArgsConstructor
 public class SecutiryFilterChain {
-    @Bean
-	CorsConfigurationSource corsConfigurationSource() {
-		CorsConfiguration configuration = new CorsConfiguration();
-
-		configuration.addAllowedOriginPattern("*");
-		configuration.addAllowedMethod("*");
-		configuration.addAllowedHeader("*");
-		configuration.setAllowCredentials(true);
-		
-		UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-		source.registerCorsConfiguration("/**", configuration);
-		return source;
-	}
+    private final UserService userService;
 
     @Bean
     PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
     @Bean
     @Order(SecurityProperties.BASIC_AUTH_ORDER)
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        
 
-        http
-        .sessionManagement()
-                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+        http.formLogin().loginProcessingUrl("/api/login").successHandler( // 로그인 성공 후 핸들러
+                new AuthenticationSuccessHandler() { // 익명 객체 사용
+                    @Override
+                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
+                            Authentication authentication) throws IOException, ServletException {
+                        // System.out.println("authentication: " + authentication.getName());
+                        // 로그인에 성공한 유저의 이름
+                        response.sendRedirect("http://localhost:8080/study");
+                    }
+                })
                 .and()
-        .httpBasic()
-                .disable()
-                .cors().and()
+                .sessionManagement()
+                .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+                .maximumSessions(1);
+        http.csrf().disable();
+
+        http.httpBasic()
+                .disable().cors()
+                .and()
                 .authorizeRequests()
-                .anyRequest()
-                .permitAll()
+                .antMatchers("/").permitAll()
+                .antMatchers("/user").authenticated()
                 .and()
                 .formLogin()
-                .usernameParameter("userName")
-                .passwordParameter("password")
-                .permitAll()
+                .loginPage("/login")
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
-                .deleteCookies("JSESSIONID")
+                // .deleteCookies("JSESSIONID", "cookies", "cookie")
                 .permitAll();
+        // http.logout().logoutUrl("/logout").logoutSuccessUrl("/suc").invalidateHttpSession(true).deleteCookies("JSESSIONID");
 
+        http.rememberMe().userDetailsService(userService);
         return http.build();
-        
+
     }
-    
+
 }

@@ -7,7 +7,6 @@ import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-@EnableWebMvc
 public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addCorsMappings(CorsRegistry registry) {
@@ -15,9 +14,9 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("*")
                 .allowedMethods("GET", "POST");
     }
-    
+
     // public void addViewControllers(ViewControllerRegistry registry) {
-    //     registry.addViewController("/login").setViewName("login");
-    //     registry.addViewController("/user").setViewName("user");
+    // registry.addViewController("/login").setViewName("login");
+    // registry.addViewController("/user").setViewName("user");
     // }
 }
