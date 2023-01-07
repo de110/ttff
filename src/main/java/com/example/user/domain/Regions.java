@@ -17,31 +17,31 @@ public class Regions {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long dong_cd;
+    @Column(name = "dong_cd")
+    private Long dongCd;
 
-    @Column
-    private String sido_nm;
+    @Column(name = "sido_nm")
+    private String sidoNm;
 
-    @Column
-    private String sigungu_nm;
+    @Column(name = "sigungu_nm")
+    private String sigunguNm;
 
-    @Column
-    private String dong_nm;
+    @Column(name = "dong_nm")
+    private String dongNm;
 
-    @Column
-    private Long dong_cd2;
+    @Column(name = "dong_cd2")
+    private Long dongCd2;
 
-    @Column
-    private String dong_nm2;
+    @Column(name = "dong_nm2")
+    private String dongNm2;
 
-    @Column
-    private String base_year;
-
+    @Column(name = "base_year")
+    private String baseYear;
 
     @Builder
-    public Regions(String sido_nm, String sigungu_nm, String dong_nm) {
-        this.sido_nm = sido_nm;
-        this.sigungu_nm = sigungu_nm;
-        this.dong_nm = dong_nm;
+    public Regions(String sidoNm, String sigunguNm, String dongNm) {
+        this.sidoNm = sidoNm;
+        this.sigunguNm = sigunguNm;
+        this.dongNm = dongNm;
     }
 }

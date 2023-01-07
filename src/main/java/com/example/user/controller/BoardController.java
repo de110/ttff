@@ -31,15 +31,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class BoardController {
     private final BoardRepository boardRepository;
-    private final HttpSession session;
     private final UserRepository userRepository;
-
-    // @GetMapping("/boards")
-    // @ResponseBody
-    // public List<Board> getBoards() {
-    // // Board board = boardDTO.toEntity();
-    // return boardRepository.findAll();
-    // }
 
     @PostMapping("/board")
     public Board board(@RequestBody Board board) {
@@ -54,10 +46,10 @@ public class BoardController {
     // 카테고리로 검색
     @GetMapping("/api/{type}")
     public List<Board> getBoardbytype(@PathVariable("type") String type) {
-        List<Board> board = new ArrayList<Board>();
-        board = boardRepository.findByType(type);
+        // List<Board> board = new ArrayList<Board>();
+        return boardRepository.findByType(type);
 
-        return board;
+        // return board;
 
     }
 
