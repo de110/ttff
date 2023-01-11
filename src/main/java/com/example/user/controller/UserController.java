@@ -27,10 +27,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.example.user.domain.Board;
 import com.example.user.domain.Regions;
 import com.example.user.domain.User;
 import com.example.user.repository.RegionRepository;
 import com.example.user.repository.UserRepository;
+import com.example.user.service.BoardService;
 import com.example.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
@@ -52,7 +54,7 @@ public class UserController {
         // log.info("Region? {} ", user.getRegion());
         Optional<Regions> re = regionRepository.findByDongNm(user.getRegion().getDongNm());
         // user.setRegion(re.get());
-        user = User.builder().userName(user.getUserName()).password(passwordEncoder.encode(user.getPassword()))
+        user = User.builder().userName(user.getUsername()).password(passwordEncoder.encode(user.getPassword()))
                 .role("USER").region(re.get()).build();
         return userService.saveUser(user);
     }
@@ -71,7 +73,7 @@ public class UserController {
 
     @PostMapping("/login")
     public String login(@RequestBody User user) {
-        userService.loadUserByUsername(user.getUserName());
+        userService.loadUserByUsername(user.getUsername());
         return "login";
     }
 
@@ -80,35 +82,4 @@ public class UserController {
         return user;
     }
 
-    @GetMapping("/regions/user")
-    public List<Regions> userRegion(@AuthenticationPrincipal UserDetails user) {
-        User userregion = userRepository.findByUserName(user.getUsername()).get();
-        String gunNm = userregion.getRegion().getSigunguNm();
-        return regionRepository.findBySigunguNm(gunNm);
-    }
-
-    @GetMapping("/regions")
-    public List<Regions> getDongList() {
-        return regionRepository.findAll();
-    }
-
-    @GetMapping("/regions/si") // 중복 처리
-    public List<String> getSi() {
-        return regionRepository.selectSidoName();
-    }
-
-    @GetMapping("/regions/gun")
-    public List<Regions> getGun(@RequestParam String sido) {
-        return regionRepository.findBySidoNm(sido);
-    }
-
-    @GetMapping("/regions/dong")
-    public List<Regions> getDong(@RequestParam String gun) {
-        return regionRepository.findBySigunguNm(gun);
-    }
-
-    @GetMapping("/regions/dd")
-    public Optional<Regions> dd() {
-        return regionRepository.findByDongNm("dn");
-    }
 }

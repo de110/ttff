@@ -31,12 +31,11 @@ public class UserService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        User user = userRepository.findByUserName(username).orElseThrow(() -> {
+        User user = userRepository.findByUsername(username).orElseThrow(() -> {
             return new UsernameNotFoundException("Not Found");
         });
         return new UserDTO(user);
     }
-
 
     public List<User> allUsers() {
         return userRepository.findAll();

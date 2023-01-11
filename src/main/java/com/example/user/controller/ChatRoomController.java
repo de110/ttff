@@ -1,6 +1,5 @@
 package com.example.user.controller;
 
-
 import java.security.Principal;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -34,20 +33,12 @@ import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @Slf4j
 @RequestMapping("/chat")
 public class ChatRoomController {
     private final ChatService chatService;
-    // private Map<String, ChatRoom> chatRooms;
-    // private final UserRepository userRepository;
-
-    // @PostConstruct
-    // // 의존관게 주입완료되면 실행되는 코드
-    // private void init() {
-    //     chatRooms = new LinkedHashMap<>();
-    // }
 
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
@@ -57,21 +48,18 @@ public class ChatRoomController {
     }
 
     @GetMapping("/room")
-    @ResponseBody
     public List<ChatRoom> roomname(@RequestParam(value = "id") Long id) {
         return chatService.findByRoomId(id);
     }
 
     // 채팅방 생성
     @PostMapping("/room")
-    @ResponseBody
     public ChatRoom create(ChatRoom chatRoom) {
         return chatService.create(chatRoom);
     }
 
     // RoomId 로 특정 채팅방 조회
     @GetMapping("/roominfo")
-    @ResponseBody
     public List<ChatRoom> getRoomParam(@RequestParam Long roomId) {
         return chatService.findByRoomId(roomId);
     }
@@ -83,15 +71,12 @@ public class ChatRoomController {
 
     // @GetMapping("/room/enter/{roomId}")
     // public String roomDetail(@PathVariable String roomId) {
-    //     // model.addAttribute("roomId", roomId);
-    //     return roomId;
+    // // model.addAttribute("roomId", roomId);
+    // return roomId;
     // }
 
     @GetMapping
-    @ResponseBody
     public List<ChatRoom> roomDetail(@RequestParam Long roomId) {
-        // model.addAttribute("roomId", roomId);
-        // ChatRoom chatRoom = new ChatRoom();
         return chatService.findByRoomId(roomId);
     }
 }

@@ -21,4 +21,7 @@ public interface RegionRepository extends JpaRepository<Regions, Long> {
     @Query(value = "SELECT distinct re.sidoNm FROM Regions re")
     public List<String> selectSidoName();
 
+    @Query(value = "SELECT DISTINCT re.sigunguNm FROM Regions re WHERE re.sidoNm=?1") // 중복 처리 검색
+    public List<String> selectSigunguName(String sidoNm);
+
 }

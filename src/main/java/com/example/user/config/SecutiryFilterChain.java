@@ -59,8 +59,6 @@ public class SecutiryFilterChain {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
                             Authentication authentication) throws IOException, ServletException {
-                        // System.out.println("authentication: " + authentication.getName());
-                        // 로그인에 성공한 유저의 이름
                         response.sendRedirect("http://localhost:8080/study");
                     }
                 })
@@ -82,9 +80,7 @@ public class SecutiryFilterChain {
                 .and()
                 .logout()
                 .invalidateHttpSession(true)
-                // .deleteCookies("JSESSIONID", "cookies", "cookie")
                 .permitAll();
-        // http.logout().logoutUrl("/logout").logoutSuccessUrl("/suc").invalidateHttpSession(true).deleteCookies("JSESSIONID");
 
         http.rememberMe().userDetailsService(userService);
         return http.build();

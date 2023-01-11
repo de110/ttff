@@ -27,4 +27,10 @@ public class BoardService {
     // boardRepository.save(board);
 
     // }
+    @Transactional
+    public Board createBoard(Board board, String username) {
+        User user = userRepository.findByUsername(username).get();
+        board.setUser(user);
+        return boardRepository.save(board);
+    }
 }

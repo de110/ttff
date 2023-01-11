@@ -30,14 +30,14 @@ public class User {
     private Long id;
 
     @Column
-    private String userName;
+    private String username;
 
     @Column
     private String password;
 
     // @Enumerated(EnumType.STRING)
     @Column
-    private String role; // 추후 ENUM으로 변경
+    private String role;
 
     // @CreationTimestamp
     // private Timestamp createDate;
@@ -47,7 +47,7 @@ public class User {
 
     @Builder
     public User(String userName, String password, String role, Regions region) {
-        this.userName = userName;
+        this.username = userName;
         this.password = password;
         this.role = role;
         this.region = region;

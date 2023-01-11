@@ -1,6 +1,5 @@
 package com.example.user.domain;
 
-
 import java.util.UUID;
 
 import javax.persistence.Column;
@@ -23,7 +22,7 @@ import lombok.Setter;
 public class ChatRoom {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name="ROOM_ID")
+    @Column(name = "ROOM_ID")
     private Long roomId;
 
     // @Column
@@ -38,12 +37,13 @@ public class ChatRoom {
     // @Column
     // private String guest;
     @ManyToOne
-    @JoinColumn(name="USER_ID")
+    @JoinColumn(name = "USER_ID")
     private User user; // who made room
+
     @Column
     private String inviteUrl;
 
-    public static ChatRoom create(String name,String inviteUrl, User user) {
+    public static ChatRoom create(String name, String inviteUrl, User user) {
         ChatRoom room = new ChatRoom();
         // room.roomId = UUID.randomUUID().toString();
         room.roomName = name;
@@ -55,7 +55,7 @@ public class ChatRoom {
     }
 
     @Builder
-    public ChatRoom(String roomname, String inviteUrl,User user) {
+    public ChatRoom(String roomname, String inviteUrl, User user) {
         // this.roomId = roomId;
         this.roomName = roomname;
         this.user = user;
