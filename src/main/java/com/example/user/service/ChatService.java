@@ -26,24 +26,12 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
-    // private final UserRepository userRepository;
-    // private Map<String, ChatRoom> chatRooms;
-
-    // @PostConstruct
-    // // 의존관게 주입완료되면 실행되는 코드
-    // private void init() {
-    // chatRooms = new LinkedHashMap<>();
-    // }
+    private final UserRepository userRepository;
 
     // 채팅방 불러오기
     public List<ChatRoom> findAllRoom() {
         // 채팅방 최근 생성 순으로 반환
         List<ChatRoom> result = chatRepository.findAll();
-        // Collections.reverse(result);
-        // List<ChatRoom> result = new ArrayList<>(chatRooms.values());
-        // Collections.reverse(result);
-
-        // return result;
         log.info("result: {}", result);
         return result;
     }
@@ -53,16 +41,6 @@ public class ChatService {
         return chatRepository.findByRoomId(roomId);
     }
 
-    // @Transactional
-    // public ChatRoom createRoom(String name, String host, String guest) {
-    // ChatRoom chatRoom = ChatRoom.create(name, host, guest);
-    // // return chatRoom;
-    // // chatRooms.put(chatRoom.getRoomId(), chatRoom);
-
-    // return chatRepository.save(chatRoom);
-
-    // }
-
     @Transactional
     public ChatRoom save(String inviteUrl) {
         ChatRoom chatRoom = chatRepository.findById(1L).get();
@@ -70,17 +48,33 @@ public class ChatService {
     }
 
     @Transactional
-    public ChatRoom create(ChatRoom chatRoom) {
+    public ChatRoom create(ChatRoom chatRoom, String username) {
+        validateDuplicateChatRoom(chatRoom);
+        User user = userRepository.findByUsername(username).get();
+        chatRoom.setUser(user);
         chatRepository.save(chatRoom); // room 정보 저장
         return chatRoom;
+    }
+
+    public void validateDuplicateChatRoom(ChatRoom chatRoom) {
+        Boolean findChatRoom = chatRepository.existsByRoomName(chatRoom.getRoomName());
+        log.info("find: {}", findChatRoom);
+        if (findChatRoom == true) {
+            throw new IllegalStateException("exist");
+        }
     }
 
     @Transactional
     public ChatMessage saveMessage(ChatMessage chatMessage) {
         // ChatMessage chatMessage = new ChatMessage();
         // chatRooms.put(chatRoom.getRoomId(), chatMessage);
+        String username = chatMessage.getSender().getUsername();
+        User user = userRepository.findByUsername(username).get();
+        chatMessage.setSender(user);
+        // chatMessage.setRoomId(chatMessage.getRoomId());
+        log.info("msg: {}", chatMessage);
         return messageRepository.save(chatMessage);
-    }
+    } /// 수정 필요
 
     public List<ChatMessage> findAllMsgs() {
         List<ChatMessage> result = messageRepository.findAll();

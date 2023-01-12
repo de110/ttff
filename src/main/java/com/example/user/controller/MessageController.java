@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.simp.SimpMessageSendingOperations;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,8 +17,10 @@ import com.example.user.service.ChatService;
 import com.example.user.service.MessageService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @RestController
+@Slf4j
 @RequiredArgsConstructor
 public class MessageController {
 
@@ -31,13 +35,10 @@ public class MessageController {
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
             message.setMessage(message.getSender() + "님이 입장하였습니다.");
         }
+        log.info("user name: {}", message.getSender().getUsername());
         sendingOperations.convertAndSend("/sub/chat/room/" + message.getRoomId(),
                 message);
-
         return chatService.saveMessage(message);
-        // ChatMessage chatMessage = new ChatMessage();
-        // return message;
-
     }
 
     // 모든 채팅 내역 반환

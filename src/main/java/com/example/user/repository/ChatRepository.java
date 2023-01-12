@@ -6,11 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.user.domain.ChatRoom;
 
-public interface ChatRepository extends JpaRepository<ChatRoom,Long>{
+public interface ChatRepository extends JpaRepository<ChatRoom, Long> {
     @Override
     List<ChatRoom> findAll();
 
     List<ChatRoom> findByRoomId(Long roomId);
 
     long deleteByRoomId(String roomId);
+
+    boolean existsByRoomName(String roomname);
 }

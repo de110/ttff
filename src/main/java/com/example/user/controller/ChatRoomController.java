@@ -15,6 +15,7 @@ import com.example.user.repository.ChatRepository;
 import com.example.user.repository.UserRepository;
 import com.example.user.service.ChatService;
 
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -36,13 +37,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/chat")
+@RequestMapping("/api/chat")
 public class ChatRoomController {
     private final ChatService chatService;
 
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
-    @ResponseBody
     public List<ChatRoom> room() {
         return chatService.findAllRoom();
     }
@@ -54,8 +54,8 @@ public class ChatRoomController {
 
     // 채팅방 생성
     @PostMapping("/room")
-    public ChatRoom create(ChatRoom chatRoom) {
-        return chatService.create(chatRoom);
+    public ChatRoom create(ChatRoom chatRoom, @AuthenticationPrincipal UserDetails user) {
+        return chatService.create(chatRoom, user.getUsername());
     }
 
     // RoomId 로 특정 채팅방 조회
