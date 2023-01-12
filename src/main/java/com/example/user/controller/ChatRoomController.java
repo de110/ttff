@@ -37,12 +37,12 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequiredArgsConstructor
 @Slf4j
-@RequestMapping("/api/chat")
+// @RequestMapping("/chat")
 public class ChatRoomController {
     private final ChatService chatService;
 
     // 모든 채팅방 목록 반환
-    @GetMapping("/rooms")
+    @GetMapping("/api/chat/rooms")
     public List<ChatRoom> room() {
         return chatService.findAllRoom();
     }
@@ -64,8 +64,9 @@ public class ChatRoomController {
         return chatService.findByRoomId(roomId);
     }
 
-    @DeleteMapping("/room/delete")
-    public void deleteChatRoom(@RequestParam String roomId) {
+    // 채팅방 삭제
+    @DeleteMapping("/api/chat/delete")
+    public void deleteChatRoom(@RequestParam Long roomId) {
         chatService.deleteChatRoom(roomId);
     }
 

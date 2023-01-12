@@ -82,7 +82,7 @@ public class ChatService {
     }
 
     @Transactional
-    public void deleteChatRoom(String roomId) {
+    public void deleteChatRoom(Long roomId) {
         chatRepository.deleteByRoomId(roomId);
     }
 

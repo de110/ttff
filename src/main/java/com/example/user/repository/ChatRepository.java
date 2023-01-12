@@ -12,7 +12,7 @@ public interface ChatRepository extends JpaRepository<ChatRoom, Long> {
 
     List<ChatRoom> findByRoomId(Long roomId);
 
-    long deleteByRoomId(String roomId);
+    long deleteByRoomId(Long roomId);
 
     boolean existsByRoomName(String roomname);
 }
