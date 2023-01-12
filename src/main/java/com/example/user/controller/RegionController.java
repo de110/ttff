@@ -1,10 +1,13 @@
 package com.example.user.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +54,15 @@ public class RegionController {
     @GetMapping("/regions/dong")
     public List<Regions> getDong(@RequestParam String gun) {
         return regionRepository.findBySigunguNm(gun);
+    }
+
+    // 동 정보 변경
+    @PatchMapping("/user/name")
+    public void updateDong(@RequestBody User dong, @AuthenticationPrincipal UserDetails user) {
+        User userregion = userRepository.findByUsername(user.getUsername()).get();
+        Optional<Regions> re = regionRepository.findByDongNm(dong.getRegion().getDongNm());
+        userregion.setRegion(re.get());
+        userRepository.save(userregion);
     }
 
 }
