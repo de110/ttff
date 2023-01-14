@@ -41,11 +41,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ChatRoomController {
     private final ChatService chatService;
 
-    // 모든 채팅방 목록 반환
+    // 유저가 속한 모든 채팅방 목록 반환
     @GetMapping("/api/chat/rooms")
-    public List<ChatRoom> room(@AuthenticationPrincipal UserDetails user) {
-
-        return chatService.findAllRoom();
+    public List<ChatRoom> getUserChatRooms(@AuthenticationPrincipal UserDetails user) {
+        return chatService.findUserChatRooms(user.getUsername());
     }
 
     @GetMapping("/api/chat/room")
@@ -54,7 +53,7 @@ public class ChatRoomController {
     }
 
     // 채팅방 생성
-    @PostMapping("/room")
+    @PostMapping("/api/chat/room")
     public ChatRoom create(ChatRoom chatRoom, @AuthenticationPrincipal UserDetails user) {
         return chatService.create(chatRoom, user.getUsername());
     }
@@ -77,7 +76,7 @@ public class ChatRoomController {
     // return roomId;
     // }
 
-    @GetMapping
+    @GetMapping("/chat")
     public List<ChatRoom> roomDetail(@RequestParam Long roomId) {
         return chatService.findByRoomId(roomId);
     }

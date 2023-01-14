@@ -9,9 +9,11 @@ import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
+import com.example.user.domain.Board;
 import com.example.user.domain.ChatMessage;
 import com.example.user.domain.ChatRoom;
 import com.example.user.domain.User;
+import com.example.user.repository.BoardRepository;
 import com.example.user.repository.ChatRepository;
 import com.example.user.repository.MessageRepository;
 import com.example.user.repository.UserRepository;
@@ -27,13 +29,17 @@ public class ChatService {
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
     private final UserRepository userRepository;
+    private final BoardRepository boardRepository;
 
     // 채팅방 불러오기
-    public List<ChatRoom> findAllRoom() {
+    public List<ChatRoom> findUserChatRooms(String username) {
         // 채팅방 최근 생성 순으로 반환
-        List<ChatRoom> result = chatRepository.findAll();
-        log.info("result: {}", result);
-        return result;
+        User user = userRepository.findByUsername(username).get();
+
+        // List<ChatRoom> result = chatRepository.findAll();
+        // return result;
+        return chatRepository.findByHostOrGuest(user, user);
+
     }
 
     // 채팅방 하나 불러오기
@@ -50,12 +56,17 @@ public class ChatService {
     @Transactional
     public ChatRoom create(ChatRoom chatRoom, String username) {
         validateDuplicateChatRoom(chatRoom);
+
         User user = userRepository.findByUsername(username).get();
-        chatRoom.setHost(user);
-        chatRepository.save(chatRoom); // room 정보 저장
+        Board board = boardRepository.findByTitle(chatRoom.getRoomName()).get();
+        chatRoom.setHost(board.getUser());
+        chatRoom.setGuest(user);
+
+        chatRepository.save(chatRoom);
         return chatRoom;
     }
 
+    // 채팅방 중복 검사
     public void validateDuplicateChatRoom(ChatRoom chatRoom) {
         Boolean findChatRoom = chatRepository.existsByRoomName(chatRoom.getRoomName());
         log.info("find: {}", findChatRoom);

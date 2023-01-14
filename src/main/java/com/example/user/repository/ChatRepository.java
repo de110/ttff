@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.user.domain.ChatRoom;
+import com.example.user.domain.User;
 
 public interface ChatRepository extends JpaRepository<ChatRoom, Long> {
     @Override
@@ -15,4 +16,6 @@ public interface ChatRepository extends JpaRepository<ChatRoom, Long> {
     long deleteByRoomId(Long roomId);
 
     boolean existsByRoomName(String roomname);
+
+    List<ChatRoom> findByHostOrGuest(User host, User Guest);
 }

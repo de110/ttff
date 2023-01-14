@@ -36,9 +36,9 @@ public class BoardService {
         board.setUser(user);
         board.setRegion(user.getRegion());
 
-        ChatRoom chatRoom = new ChatRoom();
-        chatRoom.setHost(user);
-        chatRepository.save(chatRoom);
+        // ChatRoom chatRoom = new ChatRoom();
+        // chatRoom.setHost(user);
+        // chatRepository.save(chatRoom);
 
         return boardRepository.save(board);
     }
