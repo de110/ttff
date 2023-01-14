@@ -43,11 +43,12 @@ public class ChatRoomController {
 
     // 모든 채팅방 목록 반환
     @GetMapping("/api/chat/rooms")
-    public List<ChatRoom> room() {
+    public List<ChatRoom> room(@AuthenticationPrincipal UserDetails user) {
+
         return chatService.findAllRoom();
     }
 
-    @GetMapping("/room")
+    @GetMapping("/api/chat/room")
     public List<ChatRoom> roomname(@RequestParam(value = "id") Long id) {
         return chatService.findByRoomId(id);
     }

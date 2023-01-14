@@ -45,22 +45,20 @@ public class Board extends BaseTimeEntity {
     @JoinColumn(name = "USER_ID")
     private User user;
 
-    // @OneToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "REGION_ID")
-    // private Regions region;
+    @OneToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "REGION_ID")
+    private Regions region;
 
     @Builder
     public Board(String title, String rule, String type, String start, String end,
-            User user
-    // ,Regions region
-    ) {
+            User user, Regions region) {
         this.title = title;
         this.rule = rule;
         this.type = type;
         this.start = start;
         this.end = end;
         this.user = user;
-        // this.region = region;
+        this.region = region;
     }
 
 }

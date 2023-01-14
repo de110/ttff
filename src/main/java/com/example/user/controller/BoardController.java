@@ -44,17 +44,23 @@ public class BoardController {
     }
 
     // search board by type
-    @GetMapping("/boards/{type}")
-    public List<Board> getBoardByType(@PathVariable("type") String type) {
-        return boardRepository.findByType(type);
+    @GetMapping("/api/boards/{type}")
+    public List<Board> getBoardByType(@PathVariable("type") String type, @AuthenticationPrincipal UserDetails user) {
+        User users = userRepository.findByUsername(user.getUsername()).get();
+        return boardRepository.findByTypeAndUser(type, users);
     }
 
     // get all post
-    @GetMapping("/boards")
-    public List<Board> getAllBoard() {
-        List<Board> board = new ArrayList<Board>();
-        board = boardRepository.findAll();
-        return board;
+    @GetMapping("/api/boards")
+    public List<Board> getAllBoard(@AuthenticationPrincipal UserDetails user) {
+        // List<Board> board = new ArrayList<Board>();
+        // board = boardRepository.findAll();
+
+        User users = userRepository.findByUsername(user.getUsername()).get();
+        // log.info("username: {}", user.getUsername());
+        // return boardRepository.findByUser(users);
+        return boardRepository.findByRegion(users.getRegion());
+        // return board;
     }
 
     // select post by id

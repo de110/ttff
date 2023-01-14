@@ -31,6 +31,7 @@ public class BoardService {
     public Board createBoard(Board board, String username) {
         User user = userRepository.findByUsername(username).get();
         board.setUser(user);
+        board.setRegion(user.getRegion());
         return boardRepository.save(board);
     }
 }

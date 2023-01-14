@@ -51,7 +51,7 @@ public class ChatService {
     public ChatRoom create(ChatRoom chatRoom, String username) {
         validateDuplicateChatRoom(chatRoom);
         User user = userRepository.findByUsername(username).get();
-        chatRoom.setUser(user);
+        chatRoom.setHost(user);
         chatRepository.save(chatRoom); // room 정보 저장
         return chatRoom;
     }

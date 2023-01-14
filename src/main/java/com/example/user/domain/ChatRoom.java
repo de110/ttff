@@ -37,30 +37,32 @@ public class ChatRoom {
     // @Column
     // private String guest;
     @ManyToOne
-    @JoinColumn(name = "USER_ID")
-    private User user; // who made room
+    @JoinColumn(name = "host")
+    private User host; // who made room
+
+    @ManyToOne
+    @JoinColumn(name = "guest")
+    private User guest;
 
     @Column
     private String inviteUrl;
 
-    public static ChatRoom create(String name, String inviteUrl, User user) {
+    public static ChatRoom create(String name, String inviteUrl, User host, User guest) {
         ChatRoom room = new ChatRoom();
         // room.roomId = UUID.randomUUID().toString();
         room.roomName = name;
-        room.user = user;
-        // room.host = host;
-        // room.guest = guest;
+        room.host = host;
+        room.guest = guest;
         room.inviteUrl = inviteUrl;
         return room;
     }
 
     @Builder
-    public ChatRoom(String roomname, String inviteUrl, User user) {
+    public ChatRoom(String roomname, String inviteUrl, User host, User guest) {
         // this.roomId = roomId;
         this.roomName = roomname;
-        this.user = user;
-        // this.host = host;
-        // this.guest = guest;
+        this.host = host;
+        this.guest = guest;
         this.inviteUrl = inviteUrl;
 
     }

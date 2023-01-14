@@ -56,7 +56,7 @@ public class RegionController {
         return regionRepository.findBySigunguNm(gun);
     }
 
-    // 동 정보 변경
+    // 사용자 지역 정보 변경
     @PatchMapping("/user/name")
     public void updateDong(@RequestBody User dong, @AuthenticationPrincipal UserDetails user) {
         User userregion = userRepository.findByUsername(user.getUsername()).get();
