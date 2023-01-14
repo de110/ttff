@@ -20,9 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.user.domain.Board;
+import com.example.user.domain.ChatRoom;
 import com.example.user.domain.User;
 import com.example.user.dto.BoardDTO;
 import com.example.user.repository.BoardRepository;
+import com.example.user.repository.ChatRepository;
 import com.example.user.repository.UserRepository;
 import com.example.user.service.BoardService;
 
@@ -36,6 +38,7 @@ public class BoardController {
     private final BoardRepository boardRepository;
     private final UserRepository userRepository;
     private final BoardService boardService;
+    private final ChatRepository chatRepository;
 
     // create post
     @PostMapping("/api/board")
