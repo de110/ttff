@@ -47,7 +47,8 @@ public class BoardController {
     @GetMapping("/api/boards/{type}")
     public List<Board> getBoardByType(@PathVariable("type") String type, @AuthenticationPrincipal UserDetails user) {
         User users = userRepository.findByUsername(user.getUsername()).get();
-        return boardRepository.findByTypeAndUser(type, users);
+        // return boardRepository.findByTypeAndUser(type, users);
+        return boardRepository.findByTypeAndRegion(type, users.getRegion());
     }
 
     // get all post
