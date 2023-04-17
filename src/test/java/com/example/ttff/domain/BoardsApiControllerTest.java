@@ -8,7 +8,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
-import com.example.ttff.dto.BoardDTO;
+import com.example.ttff.dto.BoardDto;
 import com.example.ttff.repository.BoardRepository;
 
 import static org.assertj.core.api.Assertions.assertThat;

@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 @Getter
 // @NoArgsConstructor
 @AllArgsConstructor
-public class BoardDTO {
+public class BoardDto {
     private String title;
     private String rule;
     // private User user;
