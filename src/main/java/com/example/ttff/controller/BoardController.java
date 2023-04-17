@@ -22,7 +22,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.ttff.domain.Board;
 import com.example.ttff.domain.ChatRoom;
 import com.example.ttff.domain.Member;
-import com.example.ttff.dto.BoardDTO;
+import com.example.ttff.dto.BoardDto;
 import com.example.ttff.repository.BoardRepository;
 import com.example.ttff.repository.ChatRepository;
 import com.example.ttff.repository.MemberRepository;

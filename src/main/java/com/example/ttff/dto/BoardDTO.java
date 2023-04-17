@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-public class BoardDTO {
+public class BoardDto {
     private String title;
     private String rule;
 
