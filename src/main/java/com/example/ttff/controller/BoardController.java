@@ -42,8 +42,8 @@ public class BoardController {
 
     // create post
     @PostMapping("/board")
-    public Board board(@RequestBody Board board) {
-        return boardService.createBoard(board);
+    public Long board(@RequestBody Board board) {
+        return boardService.createBoard(board).getId();
     }
 
     // search board by type

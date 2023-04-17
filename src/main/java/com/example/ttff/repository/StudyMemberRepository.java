@@ -13,5 +13,8 @@ public interface StudyMemberRepository extends JpaRepository<StudyMember, Long> 
     public List<String> select();
 
     List<StudyMember> findByMember(Member member);
+
+    Boolean existsByMember(Member member);
+
     // List<StudyMember> findDistinctByTitle(String name);
 }

@@ -19,7 +19,6 @@ import com.example.ttff.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
-// https://gksdudrb922.tistory.com/217
 @Slf4j
 @RestController
 @RequiredArgsConstructor
