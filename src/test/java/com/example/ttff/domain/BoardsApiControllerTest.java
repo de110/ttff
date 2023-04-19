@@ -29,7 +29,7 @@ public class BoardsApiControllerTest {
     private BoardRepository boardRepository;
 
     @Test
-    @Transactional // rollback
+    @Transactional
     public void Post_create() throws Exception {
 
         // given
