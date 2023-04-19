@@ -15,6 +15,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 public class BoardsApiControllerTest {
     @LocalServerPort
@@ -27,11 +29,12 @@ public class BoardsApiControllerTest {
     private BoardRepository boardRepository;
 
     @Test
+    @Transactional // rollback
     public void Post_create() throws Exception {
 
         // given
-        String title = "title8";
-        String rule = "rule8";
+        String title = "title9";
+        String rule = "rule9";
 
         Board board = Board.builder().title(title).rule(rule).build();
 
@@ -45,8 +48,8 @@ public class BoardsApiControllerTest {
 
         assertThat(responseEntity.getStatusCode());
         List<Board> all = boardRepository.findAll();
-        assertThat(all.get(7).getTitle()).isEqualTo(title);
-        assertThat(all.get(7).getRule()).isEqualTo(rule);
+        assertThat(all.get(0).getTitle()).isEqualTo(title);
+        assertThat(all.get(0).getRule()).isEqualTo(rule);
     }
 
 }
