@@ -40,10 +40,9 @@ public class SecurityConfig {
                 .and()
                 .authorizeRequests()
                 .antMatchers("/**", "/**/*").permitAll()
-                // .antMatchers("/members/test").hasRole("USER")
                 .anyRequest().authenticated()
                 .and()
-                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
+                .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider), // JWT 적용
                         UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

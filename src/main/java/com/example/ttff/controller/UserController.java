@@ -1,7 +1,5 @@
 package com.example.ttff.controller;
 
-import java.util.List;
-
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -9,24 +7,20 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ttff.domain.StudyMember;
 import com.example.ttff.domain.Member;
-import com.example.ttff.dto.MemberDto;
 import com.example.ttff.repository.StudyMemberRepository;
 import com.example.ttff.repository.MemberRepository;
 import com.example.ttff.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class UserController {
     private final MemberService userService;
     private final MemberRepository memberRepository;
-    private final StudyMemberRepository chatmemberRepository;
+
     // @PostMapping("/login")
     // public TokenInfo login(@RequestBody MemberLoginRequestDto
     // memberLoginRequestDto) {
@@ -51,11 +45,6 @@ public class UserController {
         // String password = userDto.getPassword();
         return memberRepository.findByMemberId(userId).get();
     }
-
-    // @GetMapping("/login")
-    // public String rememberId(@RequestParam String id) {
-    // return "a";
-    // }
 
     @PostMapping("/user")
     public Member signup(@RequestBody Member user) {

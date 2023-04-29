@@ -1,38 +1,16 @@
 package com.example.ttff.controller;
 
-import java.security.Principal;
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Optional;
-
-import javax.annotation.PostConstruct;
-import javax.transaction.Transactional;
-
 import com.example.ttff.domain.ChatRoom;
-import com.example.ttff.domain.Member;
-import com.example.ttff.repository.ChatRepository;
-import com.example.ttff.repository.MemberRepository;
 import com.example.ttff.service.ChatService;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @RestController
 @RequiredArgsConstructor
@@ -68,12 +46,6 @@ public class ChatRoomController {
     public void deleteChatRoom(@RequestParam Long roomId) {
         chatService.deleteChatRoom(roomId);
     }
-
-    // @GetMapping("/room/enter/{roomId}")
-    // public String roomDetail(@PathVariable String roomId) {
-    // // model.addAttribute("roomId", roomId);
-    // return roomId;
-    // }
 
     @GetMapping("/chat")
     public List<ChatRoom> roomDetail(@RequestParam Long roomId) {
