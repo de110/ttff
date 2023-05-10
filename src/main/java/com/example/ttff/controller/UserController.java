@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ttff.domain.Member;
+import com.example.ttff.dto.MemberDto;
+import com.example.ttff.dto.TokenInfo;
 import com.example.ttff.repository.StudyMemberRepository;
 import com.example.ttff.repository.MemberRepository;
 import com.example.ttff.service.MemberService;
@@ -30,14 +32,12 @@ public class UserController {
     // return tokenInfo;
     // }
 
-    // @PostMapping("/login")
-    // public MemberDto login(@RequestBody MemberDto userDto) {
-    // String memberId = userDto.getMemberId();
-    // String password = userDto.getPassword();
-    // // TokenInfo tokenInfo = userService.login(memberId, password);
-    // userService.login(memberId, password);
-    // return userDto;
-    // }
+    @PostMapping("/login")
+    public TokenInfo login(@RequestBody MemberDto userDto) {
+        String memberId = userDto.getMemberId();
+        String password = userDto.getPassword();
+        return userService.login(memberId, password);
+    }
 
     @GetMapping("/user")
     public Member login(@RequestParam String userId) {
