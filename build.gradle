@@ -27,28 +27,29 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	developmentOnly 'org.springframework.boot:spring-boot-devtools'
 
-	compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok'
-
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-
-	compileOnly 'org.flywaydb:flyway-mysql'
-	runtimeOnly 'mysql:mysql-connector-java'
-
+	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
 	implementation 'org.springframework.boot:spring-boot-starter-validation'
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
-	
-	annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    implementation 'org.springframework.boot:spring-boot-starter-websocket'
-	
-	implementation 'org.springframework.boot:spring-boot-starter-security'
-	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 
 	testImplementation 'io.projectreactor:reactor-test'
+
+	// lombok
+	compileOnly 'org.projectlombok:lombok:1.18.24'
+    annotationProcessor 'org.projectlombok:lombok'
+
+	// mysql
+	compileOnly 'org.flywaydb:flyway-mysql'
+	runtimeOnly 'mysql:mysql-connector-java'
+
+	// jpa
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 	
-	implementation 'org.springframework.boot:spring-boot-starter-security'
- 
+
+	// websocket
+    implementation 'org.springframework.boot:spring-boot-starter-websocket'
+
+	
 	// jwt
 	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
 	implementation 'io.jsonwebtoken:jjwt-impl:0.11.5'
@@ -56,6 +57,12 @@ dependencies {
 	
 	// Swagger
 	implementation group: 'io.springfox', name: 'springfox-boot-starter', version: '3.0.0'
+
+	// spring security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
+	testImplementation 'org.springframework.security:spring-security-test:6.0.3'
+
 }
 
 tasks.named('test') {
