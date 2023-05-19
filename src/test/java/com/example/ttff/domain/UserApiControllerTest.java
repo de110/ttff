@@ -17,9 +17,9 @@ import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
-import com.example.ttff.dto.MemberDto;
+import com.example.ttff.dto.LoginUserDto;
 import com.example.ttff.repository.RegionRepository;
-import com.example.ttff.service.MemberService;
+import com.example.ttff.service.UserService;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -33,7 +33,7 @@ public class UserApiControllerTest {
     private TestRestTemplate restTemplate;
 
     @Autowired
-    private MemberService memberService;
+    private UserService memberService;
 
     @Autowired
     private RegionRepository regionRepository;
@@ -41,18 +41,18 @@ public class UserApiControllerTest {
     @Test
     public void signup() throws Exception {
 
-        String memberId = "admin";
+        String userId = "admin";
         String password = "password";
 
         Regions region = regionRepository.findBySidoNmAndDongNm("서울특별시", "청운효자동").get();
 
-        Member member = Member.builder().memberId(memberId).password(password).region(region).build();
+        User member = User.builder().userId(userId).password(password).region(region).build();
 
-        String url = "http://localhost:" + port + "/api/user";
+        String url = "http://localhost:" + port + "/api/signup";
 
-        ResponseEntity<Member> responseEntity = restTemplate.postForEntity(url,
+        ResponseEntity<User> responseEntity = restTemplate.postForEntity(url,
                 member,
-                Member.class);
+                User.class);
 
         // then
         assertThat(responseEntity.getStatusCode());
@@ -68,11 +68,11 @@ public class UserApiControllerTest {
 
         String url = "http://localhost:" + port + "/api/login";
 
-        MemberDto member = MemberDto.builder().memberId(memberId).password(password).build();
+        LoginUserDto member = LoginUserDto.builder().memberId(memberId).password(password).build();
 
-        ResponseEntity<Member> responseEntity = restTemplate.postForEntity(url,
+        ResponseEntity<User> responseEntity = restTemplate.postForEntity(url,
                 member,
-                Member.class);
+                User.class);
 
         // when
         memberService.login(memberId, password);
@@ -80,4 +80,5 @@ public class UserApiControllerTest {
         // then
         assertThat(responseEntity.getStatusCode());
     }
+
 }
