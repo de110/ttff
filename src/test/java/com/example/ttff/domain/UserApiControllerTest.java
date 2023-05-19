@@ -31,12 +31,12 @@ public class UserApiControllerTest {
     @Test
     public void signup() throws Exception {
 
-        String userId = "admin";
+        String memberId = "admin";
         String password = "password";
 
         Region region = regionRepository.findBySidoNmAndDongNm("서울특별시", "청운효자동").get();
 
-        Member member = Member.builder().userId(userId).password(password).region(region).build();
+        Member member = Member.builder().memberId(memberId).password(password).region(region).build();
 
         String url = "http://localhost:" + port + "/api/signup";
 
