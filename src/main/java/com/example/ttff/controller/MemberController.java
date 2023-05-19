@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class MemberController {
     private final MemberService memberService;
-    private final MemberRepository userRepository;
+    private final MemberRepository memberRepository;
 
     // @PostMapping("/login")
     // public TokenInfo login(@RequestBody MemberLoginRequestDto
@@ -45,6 +45,6 @@ public class MemberController {
 
     @GetMapping("/signup")
     public Boolean checkUserId(@RequestParam String userid) {
-        return userRepository.existsByMemberId(userid);
+        return memberRepository.existsByMemberId(userid);
     }
 }
