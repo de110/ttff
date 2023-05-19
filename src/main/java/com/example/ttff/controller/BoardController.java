@@ -12,8 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ttff.domain.Board;
 import com.example.ttff.repository.BoardRepository;
-import com.example.ttff.repository.ChatRepository;
-import com.example.ttff.repository.UserRepository;
 import com.example.ttff.service.BoardService;
 
 import lombok.RequiredArgsConstructor;
@@ -22,9 +20,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class BoardController {
     private final BoardRepository boardRepository;
-    private final UserRepository memberRepository;
     private final BoardService boardService;
-    private final ChatRepository chatRepository;
 
     // create post
     @PostMapping("/board")

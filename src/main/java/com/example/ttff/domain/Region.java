@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Getter
 @NoArgsConstructor
-public class Regions {
+public class Region {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,7 +39,7 @@ public class Regions {
     private String baseYear;
 
     @Builder
-    public Regions(String sidoNm, String sigunguNm, String dongNm) {
+    public Region(String sidoNm, String sigunguNm, String dongNm) {
         this.sidoNm = sidoNm;
         this.sigunguNm = sigunguNm;
         this.dongNm = dongNm;

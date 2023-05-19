@@ -29,11 +29,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class User implements UserDetails {
+public class Member implements UserDetails {
 
     @Id
     @Column(updatable = false, unique = true, nullable = false)
-    private String userId;
+    private String memberId;
 
     @Column(nullable = false)
     private String password;
@@ -44,7 +44,7 @@ public class User implements UserDetails {
 
     @JoinColumn(name = "Region")
     @OneToOne(fetch = FetchType.EAGER)
-    private Regions region;
+    private Region region;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -55,7 +55,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userId;
+        return memberId;
     }
 
     @Override

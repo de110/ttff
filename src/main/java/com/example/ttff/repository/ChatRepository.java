@@ -5,7 +5,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import com.example.ttff.domain.ChatRoom;
-import com.example.ttff.domain.User;
+import com.example.ttff.domain.Member;
 
 public interface ChatRepository extends JpaRepository<ChatRoom, Long> {
     @Override
@@ -17,5 +17,5 @@ public interface ChatRepository extends JpaRepository<ChatRoom, Long> {
 
     boolean existsByRoomName(String roomname);
 
-    List<ChatRoom> findByHostOrGuest(User host, User Guest);
+    List<ChatRoom> findByHostOrGuest(Member host, Member Guest);
 }

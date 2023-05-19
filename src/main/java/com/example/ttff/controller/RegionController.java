@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ttff.domain.Regions;
-import com.example.ttff.domain.User;
+import com.example.ttff.domain.Region;
+import com.example.ttff.domain.Member;
 import com.example.ttff.repository.RegionRepository;
-import com.example.ttff.repository.UserRepository;
+import com.example.ttff.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,11 +21,11 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class RegionController {
 
-    private final UserRepository memberRepository;
+    private final MemberRepository memberRepository;
     private final RegionRepository regionRepository;
 
     @GetMapping("/regions")
-    public List<Regions> getDongList() {
+    public List<Region> getDongList() {
         return regionRepository.findAll();
     }
 
@@ -40,22 +40,22 @@ public class RegionController {
     }
 
     @GetMapping("/regions/dong")
-    public List<Regions> getDong(@RequestParam String sido, @RequestParam String gun) {
+    public List<Region> getDong(@RequestParam String sido, @RequestParam String gun) {
         return regionRepository.findBySidoNmAndSigunguNm(sido, gun);
     }
 
     @GetMapping("/region")
-    public Regions gList(@RequestParam String id) {
-        User member = memberRepository.findByMemberId(id).get();
+    public Region gList(@RequestParam String id) {
+        Member member = memberRepository.findByMemberId(id).get();
         return member.getRegion();
     }
 
     @PatchMapping("/user/{userId}")
-    public User updateRegion(@PathVariable String userId, @RequestBody User member) {
-        Regions r = regionRepository.findBySidoNmAndDongNm(member.getRegion().getSidoNm(),
+    public Member updateRegion(@PathVariable String userId, @RequestBody Member member) {
+        Region r = regionRepository.findBySidoNmAndDongNm(member.getRegion().getSidoNm(),
                 member.getRegion().getDongNm()).get();
 
-        User member2 = memberRepository.findByMemberId(userId).get();
+        Member member2 = memberRepository.findByMemberId(userId).get();
         member2.setRegion(r);
         memberRepository.save(member2);
         return member2;

@@ -37,13 +37,13 @@ public class ChatMessage {
     // private String sender;
     @JoinColumn(name = "sender")
     @OneToOne
-    private User sender;
+    private Member sender;
     // 내용
     @Column
     private String message;
 
     @Builder
-    public ChatMessage(String roomId, User sender, String message) {
+    public ChatMessage(String roomId, Member sender, String message) {
         this.roomId = roomId;
         this.sender = sender;
         this.message = message;

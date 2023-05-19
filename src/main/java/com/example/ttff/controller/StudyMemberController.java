@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ttff.domain.User;
+import com.example.ttff.domain.Member;
 import com.example.ttff.domain.StudyMember;
-import com.example.ttff.repository.UserRepository;
+import com.example.ttff.repository.MemberRepository;
 import com.example.ttff.repository.StudyMemberRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,7 +19,7 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 public class StudyMemberController {
     private final StudyMemberRepository smemberRepository;
-    private final UserRepository memberRepository;
+    private final MemberRepository memberRepository;
 
     // @PostMapping("/api/member")
     // public Member initMembers(@RequestBody Member member,
@@ -37,7 +37,7 @@ public class StudyMemberController {
 
     @GetMapping("/exist/member")
     public boolean existsMember(@RequestParam String memberId) {
-        User member = memberRepository.findByMemberId(memberId).get();
+        Member member = memberRepository.findByMemberId(memberId).get();
         return smemberRepository.existsByMember(member);
     }
 

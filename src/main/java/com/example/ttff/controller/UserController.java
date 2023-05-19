@@ -7,12 +7,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ttff.domain.User;
-import com.example.ttff.dto.LoginUserDto;
+import com.example.ttff.domain.Member;
+import com.example.ttff.dto.LoginMemberDto;
 import com.example.ttff.dto.TokenInfo;
-import com.example.ttff.repository.StudyMemberRepository;
-import com.example.ttff.repository.UserRepository;
-import com.example.ttff.service.UserService;
+import com.example.ttff.repository.MemberRepository;
+import com.example.ttff.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,32 +19,32 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class UserController {
-    private final UserService memberService;
-    private final UserRepository memberRepository;
+    private final MemberService userService;
+    private final MemberRepository userRepository;
 
     // @PostMapping("/login")
     // public TokenInfo login(@RequestBody MemberLoginRequestDto
     // memberLoginRequestDto) {
     // String memberId = memberLoginRequestDto.getMemberId();
     // String password = memberLoginRequestDto.getPassword();
-    // TokenInfo tokenInfo = memberService.login(memberId, password);
+    // TokenInfo tokenInfo = userService.login(memberId, password);
     // return tokenInfo;
     // }
 
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody LoginUserDto loginUserDto) {
+    public TokenInfo login(@RequestBody LoginMemberDto loginUserDto) {
         String memberId = loginUserDto.getMemberId();
         String password = loginUserDto.getPassword();
-        return memberService.login(memberId, password);
+        return userService.login(memberId, password);
     }
 
     @PostMapping("/signup")
-    public User signup(@RequestBody User user) {
-        return memberService.signup(user);
+    public Member signup(@RequestBody Member user) {
+        return userService.signup(user);
     }
 
     @GetMapping("/signup")
     public Boolean checkUserId(@RequestParam String userid) {
-        return memberRepository.existsByMemberId(userid);
+        return userRepository.existsByMemberId(userid);
     }
 }

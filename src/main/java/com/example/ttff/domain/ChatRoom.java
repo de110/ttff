@@ -1,7 +1,5 @@
 package com.example.ttff.domain;
 
-import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -38,13 +36,13 @@ public class ChatRoom {
     // private String guest;
     @ManyToOne
     @JoinColumn(name = "host")
-    private User host; // who made room
+    private Member host; // who made room
 
     @ManyToOne
     @JoinColumn(name = "guest")
-    private User guest;
+    private Member guest;
 
-    public static ChatRoom create(String name, User host, User guest) {
+    public static ChatRoom create(String name, Member host, Member guest) {
         ChatRoom room = new ChatRoom();
         // room.roomId = UUID.randomUUID().toString();
         room.roomName = name;
@@ -54,7 +52,7 @@ public class ChatRoom {
     }
 
     @Builder
-    public ChatRoom(String roomname, User host, User guest) {
+    public ChatRoom(String roomname, Member host, Member guest) {
         // this.roomId = roomId;
         this.roomName = roomname;
         this.host = host;

@@ -1,22 +1,16 @@
 package com.example.ttff.service;
 
-import java.util.LinkedHashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.annotation.PostConstruct;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Service;
 
-import com.example.ttff.domain.Board;
 import com.example.ttff.domain.ChatMessage;
 import com.example.ttff.domain.ChatRoom;
-import com.example.ttff.domain.User;
-import com.example.ttff.repository.BoardRepository;
+import com.example.ttff.domain.Member;
 import com.example.ttff.repository.ChatRepository;
 import com.example.ttff.repository.MessageRepository;
-import com.example.ttff.repository.UserRepository;
+import com.example.ttff.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +22,12 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
-    private final UserRepository userRepository;
-    private final BoardRepository boardRepository;
+    private final MemberRepository memberRepository;
 
     // 채팅방 불러오기
     public List<ChatRoom> findUserChatRooms(String username) {
         // 채팅방 최근 생성 순으로 반환
-        User member = userRepository.findByMemberId(username).get();
+        Member member = memberRepository.findByMemberId(username).get();
         return chatRepository.findByHostOrGuest(member, member);
 
     }
@@ -71,8 +64,8 @@ public class ChatService {
     public ChatMessage saveMessage(ChatMessage chatMessage) {
         // ChatMessage chatMessage = new ChatMessage();
         // chatRooms.put(chatRoom.getRoomId(), chatMessage);
-        String username = chatMessage.getSender().getUserId();
-        User member = userRepository.findByMemberId(username).get();
+        String username = chatMessage.getSender().getMemberId();
+        Member member = memberRepository.findByMemberId(username).get();
         chatMessage.setSender(member);
         // chatMessage.setRoomId(chatMessage.getRoomId());
         log.info("msg: {}", chatMessage);
