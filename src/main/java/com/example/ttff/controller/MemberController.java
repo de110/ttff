@@ -18,8 +18,8 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api")
-public class UserController {
-    private final MemberService userService;
+public class MemberController {
+    private final MemberService memberService;
     private final MemberRepository userRepository;
 
     // @PostMapping("/login")
@@ -27,7 +27,7 @@ public class UserController {
     // memberLoginRequestDto) {
     // String memberId = memberLoginRequestDto.getMemberId();
     // String password = memberLoginRequestDto.getPassword();
-    // TokenInfo tokenInfo = userService.login(memberId, password);
+    // TokenInfo tokenInfo = memberService.login(memberId, password);
     // return tokenInfo;
     // }
 
@@ -35,12 +35,12 @@ public class UserController {
     public TokenInfo login(@RequestBody LoginMemberDto loginUserDto) {
         String memberId = loginUserDto.getMemberId();
         String password = loginUserDto.getPassword();
-        return userService.login(memberId, password);
+        return memberService.login(memberId, password);
     }
 
     @PostMapping("/signup")
     public Member signup(@RequestBody Member user) {
-        return userService.signup(user);
+        return memberService.signup(user);
     }
 
     @GetMapping("/signup")
