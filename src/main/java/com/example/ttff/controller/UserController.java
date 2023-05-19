@@ -7,12 +7,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ttff.domain.Member;
-import com.example.ttff.dto.MemberDto;
+import com.example.ttff.domain.User;
+import com.example.ttff.dto.LoginUserDto;
 import com.example.ttff.dto.TokenInfo;
 import com.example.ttff.repository.StudyMemberRepository;
-import com.example.ttff.repository.MemberRepository;
-import com.example.ttff.service.MemberService;
+import com.example.ttff.repository.UserRepository;
+import com.example.ttff.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,47 +20,32 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class UserController {
-    private final MemberService userService;
-    private final MemberRepository memberRepository;
+    private final UserService memberService;
+    private final UserRepository memberRepository;
 
     // @PostMapping("/login")
     // public TokenInfo login(@RequestBody MemberLoginRequestDto
     // memberLoginRequestDto) {
     // String memberId = memberLoginRequestDto.getMemberId();
     // String password = memberLoginRequestDto.getPassword();
-    // TokenInfo tokenInfo = userService.login(memberId, password);
+    // TokenInfo tokenInfo = memberService.login(memberId, password);
     // return tokenInfo;
     // }
 
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody MemberDto userDto) {
-        String memberId = userDto.getMemberId();
-        String password = userDto.getPassword();
-        return userService.login(memberId, password);
+    public TokenInfo login(@RequestBody LoginUserDto loginUserDto) {
+        String memberId = loginUserDto.getMemberId();
+        String password = loginUserDto.getPassword();
+        return memberService.login(memberId, password);
     }
 
-    @GetMapping("/user")
-    public Member login(@RequestParam String userId) {
-        // String memberId = userDto.getMemberId();
-        // String password = userDto.getPassword();
-        return memberRepository.findByMemberId(userId).get();
-    }
-
-    @PostMapping("/user")
-    public Member signup(@RequestBody Member user) {
-        return userService.signup(user);
+    @PostMapping("/signup")
+    public User signup(@RequestBody User user) {
+        return memberService.signup(user);
     }
 
     @GetMapping("/signup")
     public Boolean checkUserId(@RequestParam String userid) {
         return memberRepository.existsByMemberId(userid);
     }
-
-    // @GetMapping(path = "/rooms", params = "username")
-    // public List<Member> getRoomList(@RequestParam String username) {
-    // // Member user = userRepository.findByMemberId(username).get();
-    // return memberRepository.findByMemberId(username);
-    // // return chatuserRepository.findAll();
-    // }
-
 }

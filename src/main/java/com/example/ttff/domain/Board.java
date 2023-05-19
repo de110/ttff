@@ -41,10 +41,6 @@ public class Board extends BaseTimeEntity {
     @Column
     private String end;
 
-    // @ManyToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "MEMBER_ID")
-    // private Member member;
-
     @Column
     String member;
 

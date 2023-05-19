@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import com.example.ttff.domain.Board;
 import com.example.ttff.domain.ChatMessage;
 import com.example.ttff.domain.ChatRoom;
-import com.example.ttff.domain.Member;
+import com.example.ttff.domain.User;
 import com.example.ttff.repository.BoardRepository;
 import com.example.ttff.repository.ChatRepository;
 import com.example.ttff.repository.MessageRepository;
-import com.example.ttff.repository.MemberRepository;
+import com.example.ttff.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,13 +28,13 @@ public class ChatService {
 
     private final ChatRepository chatRepository;
     private final MessageRepository messageRepository;
-    private final MemberRepository userRepository;
+    private final UserRepository userRepository;
     private final BoardRepository boardRepository;
 
     // 채팅방 불러오기
     public List<ChatRoom> findUserChatRooms(String username) {
         // 채팅방 최근 생성 순으로 반환
-        Member member = userRepository.findByMemberId(username).get();
+        User member = userRepository.findByMemberId(username).get();
         return chatRepository.findByHostOrGuest(member, member);
 
     }
@@ -71,8 +71,8 @@ public class ChatService {
     public ChatMessage saveMessage(ChatMessage chatMessage) {
         // ChatMessage chatMessage = new ChatMessage();
         // chatRooms.put(chatRoom.getRoomId(), chatMessage);
-        String username = chatMessage.getSender().getMemberId();
-        Member member = userRepository.findByMemberId(username).get();
+        String username = chatMessage.getSender().getUserId();
+        User member = userRepository.findByMemberId(username).get();
         chatMessage.setSender(member);
         // chatMessage.setRoomId(chatMessage.getRoomId());
         log.info("msg: {}", chatMessage);

@@ -25,7 +25,7 @@ public class StudyMember {
 
     @JoinColumn(name = "MEMBER_ID")
     @ManyToOne
-    Member member;
+    User member;
 
     @Column(name = "title")
     private String title;
@@ -34,7 +34,7 @@ public class StudyMember {
     private Boolean manager;
 
     @Builder
-    public StudyMember(Member member, String title, Boolean manager) {
+    public StudyMember(User member, String title, Boolean manager) {
         this.member = member;
         this.title = title;
         this.manager = manager;

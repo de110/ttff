@@ -8,10 +8,10 @@ import org.springframework.stereotype.Service;
 
 import com.example.ttff.domain.Board;
 import com.example.ttff.domain.ChatRoom;
-import com.example.ttff.domain.Member;
+import com.example.ttff.domain.User;
 import com.example.ttff.repository.BoardRepository;
 import com.example.ttff.repository.ChatRepository;
-import com.example.ttff.repository.MemberRepository;
+import com.example.ttff.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -20,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 public class BoardService {
 
     private final BoardRepository boardRepository;
-    private final MemberRepository memberRepository;
+    private final UserRepository memberRepository;
     private final ChatRepository chatRepository;
 
     // @Transactional

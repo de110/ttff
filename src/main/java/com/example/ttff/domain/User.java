@@ -29,11 +29,11 @@ import lombok.Setter;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-public class Member implements UserDetails {
+public class User implements UserDetails {
 
     @Id
     @Column(updatable = false, unique = true, nullable = false)
-    private String memberId;
+    private String userId;
 
     @Column(nullable = false)
     private String password;
@@ -55,7 +55,7 @@ public class Member implements UserDetails {
 
     @Override
     public String getUsername() {
-        return memberId;
+        return userId;
     }
 
     @Override

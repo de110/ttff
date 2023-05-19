@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ttff.domain.Regions;
-import com.example.ttff.domain.Member;
+import com.example.ttff.domain.User;
 import com.example.ttff.repository.RegionRepository;
-import com.example.ttff.repository.MemberRepository;
+import com.example.ttff.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,7 +21,7 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class RegionController {
 
-    private final MemberRepository memberRepository;
+    private final UserRepository memberRepository;
     private final RegionRepository regionRepository;
 
     @GetMapping("/regions")
@@ -46,16 +46,16 @@ public class RegionController {
 
     @GetMapping("/region")
     public Regions gList(@RequestParam String id) {
-        Member member = memberRepository.findByMemberId(id).get();
+        User member = memberRepository.findByMemberId(id).get();
         return member.getRegion();
     }
 
     @PatchMapping("/user/{userId}")
-    public Member updateRegion(@PathVariable String userId, @RequestBody Member member) {
+    public User updateRegion(@PathVariable String userId, @RequestBody User member) {
         Regions r = regionRepository.findBySidoNmAndDongNm(member.getRegion().getSidoNm(),
                 member.getRegion().getDongNm()).get();
 
-        Member member2 = memberRepository.findByMemberId(userId).get();
+        User member2 = memberRepository.findByMemberId(userId).get();
         member2.setRegion(r);
         memberRepository.save(member2);
         return member2;

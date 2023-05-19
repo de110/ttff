@@ -7,11 +7,11 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.ttff.domain.Member;
+import com.example.ttff.domain.User;
 import com.example.ttff.domain.Regions;
 import com.example.ttff.dto.TokenInfo;
 import com.example.ttff.jwt.JwtTokenProvider;
-import com.example.ttff.repository.MemberRepository;
+import com.example.ttff.repository.UserRepository;
 import com.example.ttff.repository.RegionRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -19,9 +19,9 @@ import lombok.RequiredArgsConstructor;
 @Service
 @Transactional(readOnly = true)
 @RequiredArgsConstructor
-public class MemberService {
+public class UserService {
 
-    private final MemberRepository userRepository;
+    private final UserRepository memberRepository;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RegionRepository regionRepository;
@@ -45,11 +45,11 @@ public class MemberService {
     }
 
     @Transactional
-    public Member signup(Member member) {
+    public User signup(User member) {
         Regions region = regionRepository
                 .findBySidoNmAndDongNm(member.getRegion().getSidoNm(), member.getRegion().getDongNm()).get();
         member.setRegion(region);
-        return userRepository.save(member);
+        return memberRepository.save(member);
     }
 
     public static String getCurrentMemberId() {
