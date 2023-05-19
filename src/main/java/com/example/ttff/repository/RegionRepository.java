@@ -15,10 +15,10 @@ public interface RegionRepository extends JpaRepository<Region, Long> {
 
     Optional<Region> findBySidoNmAndDongNm(String sidoNm, String dongNm);
 
-    @Query(value = "SELECT distinct re.sidoNm FROM Regions re")
+    @Query(value = "SELECT distinct re.sidoNm FROM Region re")
     public List<String> selectSidoName();
 
-    @Query(value = "SELECT DISTINCT re.sigunguNm FROM Regions re WHERE re.sidoNm=?1") // 중복 처리 검색
+    @Query(value = "SELECT DISTINCT re.sigunguNm FROM Region re WHERE re.sidoNm=?1") // 중복 처리 검색
     public List<String> selectSigunguName(String sidoNm);
 
 }
