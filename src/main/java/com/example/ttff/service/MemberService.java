@@ -4,11 +4,13 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ttff.domain.Member;
 import com.example.ttff.domain.Region;
+import com.example.ttff.dto.SignupDto;
 import com.example.ttff.dto.TokenInfo;
 import com.example.ttff.jwt.JwtTokenProvider;
 import com.example.ttff.repository.MemberRepository;
@@ -25,6 +27,7 @@ public class MemberService {
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final JwtTokenProvider jwtTokenProvider;
     private final RegionRepository regionRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Transactional
     public TokenInfo login(String memberId, String password) {
@@ -45,11 +48,18 @@ public class MemberService {
     }
 
     @Transactional
-    public Member signup(Member member) {
+    public Member signup(SignupDto signupDto) {
         Region region = regionRepository
-                .findBySidoNmAndDongNm(member.getRegion().getSidoNm(), member.getRegion().getDongNm()).get();
-        member.setRegion(region);
-        return memberRepository.save(member);
+                .findBySidoNmAndDongNm(signupDto.getRegion().getSidoNm(), signupDto.getRegion().getDongNm()).get();
+        signupDto.setRegion(region);
+
+        String password = passwordEncoder.encode(signupDto.getPassword());
+        signupDto.setPassword(password);
+        return memberRepository.save(signupDto.toEntity());
+    }
+
+    public Member getUser(String member) {
+        return memberRepository.findByMemberId(member).get();
     }
 
     public static String getCurrentMemberId() {

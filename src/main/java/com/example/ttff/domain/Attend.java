@@ -5,6 +5,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -16,21 +18,22 @@ import lombok.NoArgsConstructor;
 public class Attend extends BaseTimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column
-    String name;
+    private Member member;
 
     @Column
-    String attend;
+    private String attend;
 
-    @Column
-    String studyName;
+    @JoinColumn
+    @ManyToOne
+    private Study study;
 
     @Builder
-    public Attend(String name, String attend, String studyName) {
-        this.name = name;
+    public Attend(Member member, String attend, Study study) {
+        this.member = member;
         this.attend = attend;
-        this.studyName = studyName;
+        this.study = study;
     }
 }

@@ -17,7 +17,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Entity
-public class StudyMember {
+public class Study {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "SMEMBER_ID")
@@ -25,18 +25,14 @@ public class StudyMember {
 
     @JoinColumn(name = "MEMBER_ID")
     @ManyToOne
-    Member member;
+    private Member member;
 
     @Column(name = "title")
     private String title;
 
-    @Column(name = "manager")
-    private Boolean manager;
-
     @Builder
-    public StudyMember(Member member, String title, Boolean manager) {
+    public Study(Member member, String title, Boolean manager) {
         this.member = member;
         this.title = title;
-        this.manager = manager;
     }
 }

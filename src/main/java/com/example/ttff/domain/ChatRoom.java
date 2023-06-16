@@ -1,5 +1,7 @@
 package com.example.ttff.domain;
 
+import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -23,20 +25,12 @@ public class ChatRoom {
     @Column(name = "ROOM_ID")
     private Long roomId;
 
-    // @Column
-    // private String roomId;
-
     @Column
     private String roomName;
 
-    // @Column
-    // private String host;
-
-    // @Column
-    // private String guest;
     @ManyToOne
     @JoinColumn(name = "host")
-    private Member host; // who made room
+    private Member host;
 
     @ManyToOne
     @JoinColumn(name = "guest")

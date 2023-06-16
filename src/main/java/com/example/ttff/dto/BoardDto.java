@@ -8,12 +8,12 @@ import lombok.Getter;
 @AllArgsConstructor
 public class BoardDto {
     private String title;
-    private String rule;
+    private String content;
 
     public Board toEntity() {
         Board board = Board.builder()
                 .title(title)
-                .rule(rule)
+                .content(content)
                 .build();
         return board;
     }

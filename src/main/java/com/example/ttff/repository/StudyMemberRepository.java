@@ -6,13 +6,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import com.example.ttff.domain.Member;
-import com.example.ttff.domain.StudyMember;
+import com.example.ttff.domain.Study;
 
-public interface StudyMemberRepository extends JpaRepository<StudyMember, Long> {
-    @Query(value = "SELECT distinct re.title FROM StudyMember re")
+public interface StudyMemberRepository extends JpaRepository<Study, Long> {
+    @Query(value = "SELECT distinct re.title FROM Study re")
     public List<String> select();
 
-    List<StudyMember> findByMember(Member member);
+    List<Study> findByMember(Member member);
 
     Boolean existsByMember(Member member);
 

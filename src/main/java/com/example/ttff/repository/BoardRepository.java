@@ -9,15 +9,15 @@ import com.example.ttff.domain.Board;
 import com.example.ttff.domain.Member;
 
 public interface BoardRepository extends JpaRepository<Board, Long> {
-    List<Board> findByType(String type);
+    List<Board> findByCategory(String category);
 
     List<Board> findByMember(Member member);
 
-    List<Board> findByTypeAndMember(String type, Member member);
+    List<Board> findByCategoryAndMember(String type, Member member);
 
-    List<Board> findByTypeAndDongNm(String type, String DongNm);
+    // List<Board> findByCategoryAnd(String type, String DongNm);
 
-    List<Board> findByDongNm(String dongNm);
+    // List<Board> findByDongNm(String dongNm);
 
     Optional<Board> findByTitle(String title);
 

@@ -1,16 +1,16 @@
 package com.example.ttff.controller;
 
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ttff.domain.Member;
 import com.example.ttff.dto.LoginMemberDto;
+import com.example.ttff.dto.SignupDto;
 import com.example.ttff.dto.TokenInfo;
-import com.example.ttff.repository.MemberRepository;
 import com.example.ttff.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -20,7 +20,6 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class MemberController {
     private final MemberService memberService;
-    private final MemberRepository memberRepository;
 
     // @PostMapping("/login")
     // public TokenInfo login(@RequestBody MemberLoginRequestDto
@@ -32,19 +31,21 @@ public class MemberController {
     // }
 
     @PostMapping("/login")
-    public TokenInfo login(@RequestBody LoginMemberDto loginUserDto) {
-        String memberId = loginUserDto.getMemberId();
-        String password = loginUserDto.getPassword();
+    public TokenInfo login(@RequestBody LoginMemberDto loginMemberDto) {
+        String memberId = loginMemberDto.getMemberId();
+        String password = loginMemberDto.getPassword();
         return memberService.login(memberId, password);
     }
 
     @PostMapping("/signup")
-    public Member signup(@RequestBody Member user) {
-        return memberService.signup(user);
+    public Member signup(@RequestBody SignupDto signupDto) {
+        return memberService.signup(signupDto);
     }
 
-    @GetMapping("/signup")
-    public Boolean checkUserId(@RequestParam String userid) {
-        return memberRepository.existsByMemberId(userid);
+    // 유저 조회
+    @GetMapping("/user/{member}")
+    public Member getUser(@PathVariable String member) {
+        return memberService.getUser(member);
     }
+
 }

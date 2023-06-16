@@ -5,6 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,36 +27,35 @@ public class Board extends BaseTimeEntity {
     private String title;
 
     @Column(columnDefinition = "TEXT")
-    private String rule;
+    private String content;
 
     @Column
-    private String type;
+    private String category;
 
     @Column
-    private String start;
+    private String startDate;
 
     @Column
-    private String end;
+    private String endDate;
 
-    @Column
-    String member;
+    @ManyToOne
+    @JoinColumn
+    private Member member;
 
-    // @OneToOne(fetch = FetchType.EAGER)
-    // @JoinColumn(name = "REGION_ID")
-    // private Regions region;
-    @Column
-    private String dongNm;
+    @OneToOne
+    @JoinColumn
+    private Region region;
 
     @Builder
-    public Board(String title, String rule, String type, String start, String end,
-            String member, String dongNm) {
+    public Board(String title, String content, String category, String startDate, String endDate,
+            Member member, Region region) {
         this.title = title;
-        this.rule = rule;
-        this.type = type;
-        this.start = start;
-        this.end = end;
+        this.content = content;
+        this.category = category;
+        this.startDate = startDate;
+        this.endDate = endDate;
         this.member = member;
-        this.dongNm = dongNm;
+        this.region = region;
     }
 
 }

@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ttff.domain.Member;
-import com.example.ttff.domain.StudyMember;
+import com.example.ttff.domain.Study;
 import com.example.ttff.repository.MemberRepository;
 import com.example.ttff.repository.StudyMemberRepository;
 
@@ -30,7 +30,7 @@ public class StudyMemberController {
     // }
 
     @PostMapping("/api/members")
-    public StudyMember addMembers(@RequestBody StudyMember smember) {
+    public Study addMembers(@RequestBody Study smember) {
         smemberRepository.existsByMember(smember.getMember());
         return smemberRepository.save(smember);
     }
@@ -42,7 +42,7 @@ public class StudyMemberController {
     }
 
     @GetMapping("/member")
-    public List<StudyMember> allMem() {
+    public List<Study> allMem() {
         return smemberRepository.findAll();
     }
 

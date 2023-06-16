@@ -61,6 +61,8 @@ dependencies {
 	implementation 'org.thymeleaf.extras:thymeleaf-extras-springsecurity5'
 	testImplementation 'org.springframework.security:spring-security-test:5.7.3'
 
+	// argon2
+	compileOnly group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.61'
 }
 
 tasks.named('test') {

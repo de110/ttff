@@ -35,9 +35,11 @@ public class ChatMessage {
     // 보내는 사람
     // @Column
     // private String sender;
+
     @JoinColumn(name = "sender")
     @OneToOne
     private Member sender;
+
     // 내용
     @Column
     private String message;
