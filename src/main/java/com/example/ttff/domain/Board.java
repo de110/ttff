@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+// import javax.persistence.OneToOne;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -42,20 +42,20 @@ public class Board extends BaseTimeEntity {
     @JoinColumn
     private Member member;
 
-    @OneToOne
-    @JoinColumn
-    private Region region;
+    // @OneToOne
+    // @JoinColumn
+    // private Region region;
 
     @Builder
-    public Board(String title, String content, String category, String startDate, String endDate,
-            Member member, Region region) {
+    public Board(String title, String content, String category, String startDate,
+            String endDate, Member member) {
         this.title = title;
         this.content = content;
         this.category = category;
         this.startDate = startDate;
         this.endDate = endDate;
         this.member = member;
-        this.region = region;
+        // this.region = region;
     }
 
 }

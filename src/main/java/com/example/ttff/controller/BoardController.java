@@ -1,56 +1,59 @@
-// package com.example.ttff.controller;
+package com.example.ttff.controller;
 
-// import java.util.List;
-// import java.util.Optional;
+import java.util.List;
 
-// import org.springframework.web.bind.annotation.GetMapping;
-// import org.springframework.web.bind.annotation.PathVariable;
-// import org.springframework.web.bind.annotation.PostMapping;
-// import org.springframework.web.bind.annotation.RequestBody;
-// import org.springframework.web.bind.annotation.RequestParam;
-// import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 
-// import com.example.ttff.domain.Board;
-// import com.example.ttff.repository.BoardRepository;
-// import com.example.ttff.service.BoardService;
+import com.example.ttff.dto.BoardDto;
+import com.example.ttff.service.BoardService;
 
-// import lombok.RequiredArgsConstructor;
+import lombok.RequiredArgsConstructor;
 
-// @RestController
-// @RequiredArgsConstructor
-// public class BoardController {
-// private final BoardRepository boardRepository;
-// private final BoardService boardService;
+@RestController
+@RequiredArgsConstructor
+public class BoardController {
+    private final BoardService boardService;
 
-// // create post
-// @PostMapping("/board")
-// public Long board(@RequestBody Board board) {
-// return boardService.createBoard(board).getId();
-// }
+    // 게시글 작성
+    @ResponseStatus(value = HttpStatus.CREATED)
+    @PostMapping("/board")
+    public BoardDto.Res createPost(@RequestBody BoardDto board) {
+        return boardService.createPost(board);
+    }
 
-// // get all post
-// @GetMapping("/{type}")
-// public List<Board> getAllBoard(@PathVariable String type) {
-// return boardRepository.findByType(type);
-// }
+    // 전체 게시글 조회
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/boards")
+    public List<BoardDto.Res> getAllPosts() {
+        return boardService.findAllPosts();
+    }
 
-// // @GetMapping("/boards")
-// // public List<Board> getAllBoards(@RequestParam String dong) {
-// // return boardRepository.findByDongNm(dong);
-// // }
+    // 카테고리 기준 게시글 검색
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/{type}")
+    public List<BoardDto.Res> getPostsByCategory(@PathVariable String type) {
+        return boardService.findByCategory(type);
+    }
 
-// // select post by id
-// @GetMapping(path = "/{type}", params = "id")
-// public Board getBoardbyId(@PathVariable("type") String type, @RequestParam
-// Long id) {
-// Optional<Board> boards = boardRepository.findById(id);
-// return boards.get();
-// }
+    // 게시글 선택
+    @ResponseStatus(value = HttpStatus.OK)
+    @GetMapping("/board/{id}")
+    public BoardDto.Res getPostById(@PathVariable final Long id) {
+        return boardService.findById(id);
+    }
 
-// // @GetMapping(path = "/{type}", params = "dong")
-// // public List<Board> getBoardByType(@PathVariable String type,
-// // @RequestParam(required = false) String dong) {
-// // return boardRepository.findByCategoryAndDongNm(type, dong);
-// // }
+    // 게시글 삭제
+    @ResponseStatus(HttpStatus.OK)
+    @DeleteMapping("/board/{id}")
+    public void deletePost(@PathVariable final Long id) {
+        boardService.deletePost(id);
+    }
 
-// }
+}
