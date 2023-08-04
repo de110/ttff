@@ -21,18 +21,16 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import lombok.AllArgsConstructor;
+import com.example.ttff.dto.MemberDto.MemberReq;
+
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
-@Getter
-@Setter
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member implements UserDetails {
 
     @Id
@@ -58,12 +56,23 @@ public class Member implements UserDetails {
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
-    @Builder.Default
     private List<String> roles = new ArrayList<>();
 
     @JoinColumn(name = "Region")
     @OneToOne(fetch = FetchType.EAGER)
     private Region region;
+
+    @Builder
+    public Member(UUID uid, String memberId, String password, String name, String email, List<String> roles,
+            Region region) {
+        this.uid = uid;
+        this.memberId = memberId;
+        this.password = password;
+        this.name = name;
+        this.email = email;
+        this.roles = roles;
+        this.region = region;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -100,5 +109,9 @@ public class Member implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public void updateRegion(MemberReq dto) {
+        this.region = dto.getRegion();
     }
 }

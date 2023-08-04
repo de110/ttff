@@ -1,5 +1,7 @@
 package com.example.ttff.service;
 
+import java.util.Optional;
+
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -9,9 +11,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.ttff.domain.Member;
-import com.example.ttff.domain.Region;
-import com.example.ttff.dto.SignupDto;
 import com.example.ttff.dto.TokenInfo;
+import com.example.ttff.dto.MemberDto.SignupReq;
+import com.example.ttff.exception.MemberNotFoundException;
 import com.example.ttff.jwt.JwtTokenProvider;
 import com.example.ttff.repository.MemberRepository;
 import com.example.ttff.repository.RegionRepository;
@@ -28,6 +30,11 @@ public class MemberService {
     private final JwtTokenProvider jwtTokenProvider;
     private final RegionRepository regionRepository;
     private final PasswordEncoder passwordEncoder;
+
+    @Transactional
+    public Member signup(SignupReq signupReq) {
+        return memberRepository.save(signupReq.toEntity());
+    }
 
     @Transactional
     public TokenInfo login(String memberId, String password) {
@@ -47,19 +54,11 @@ public class MemberService {
         return tokenInfo;
     }
 
-    @Transactional
-    public Member signup(SignupDto signupDto) {
-        Region region = regionRepository
-                .findBySidoNmAndDongNm(signupDto.getRegion().getSidoNm(), signupDto.getRegion().getDongNm()).get();
-        signupDto.setRegion(region);
-
-        String password = passwordEncoder.encode(signupDto.getPassword());
-        signupDto.setPassword(password);
-        return memberRepository.save(signupDto.toEntity());
-    }
-
-    public Member getUser(String member) {
-        return memberRepository.findByMemberId(member).get();
+    @Transactional(readOnly = true)
+    public Member findById(Long id) {
+        Optional<Member> member = memberRepository.findById(id);
+        member.orElseThrow(() -> new MemberNotFoundException(id));
+        return member.get();
     }
 
     public static String getCurrentMemberId() {

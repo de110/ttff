@@ -1,16 +1,18 @@
 package com.example.ttff.controller;
 
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.example.ttff.domain.Member;
 import com.example.ttff.dto.LoginMemberDto;
-import com.example.ttff.dto.SignupDto;
+import com.example.ttff.dto.MemberDto;
 import com.example.ttff.dto.TokenInfo;
+import com.example.ttff.dto.MemberDto.SignupReq;
 import com.example.ttff.service.MemberService;
 
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,14 @@ public class MemberController {
     // return tokenInfo;
     // }
 
+    // 회원가입
+    @PostMapping("/signup")
+    @ResponseStatus(value = HttpStatus.CREATED)
+    public MemberDto.Res signup(@RequestBody SignupReq signupReq) {
+        return new MemberDto.Res(memberService.signup(signupReq));
+    }
+
+    // 로그인
     @PostMapping("/login")
     public TokenInfo login(@RequestBody LoginMemberDto loginMemberDto) {
         String memberId = loginMemberDto.getMemberId();
@@ -37,15 +47,11 @@ public class MemberController {
         return memberService.login(memberId, password);
     }
 
-    @PostMapping("/signup")
-    public Member signup(@RequestBody SignupDto signupDto) {
-        return memberService.signup(signupDto);
-    }
-
-    // 유저 조회
-    @GetMapping("/user/{member}")
-    public Member getUser(@PathVariable String member) {
-        return memberService.getUser(member);
+    // 사용자 조회
+    @GetMapping("/user/{id}")
+    @ResponseStatus(value = HttpStatus.OK)
+    public MemberDto.Res getUser(@PathVariable final Long id) {
+        return new MemberDto.Res(memberService.findById(id));
     }
 
 }
