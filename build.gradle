@@ -63,6 +63,10 @@ dependencies {
 
 	// argon2
 	compileOnly group: 'org.bouncycastle', name: 'bcprov-jdk15on', version: '1.61'
+
+
+	// h2
+	runtimeOnly 'com.h2database:h2'
 }
 
 tasks.named('test') {
