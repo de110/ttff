@@ -6,9 +6,11 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.example.ttff.domain.Member;
 import com.example.ttff.dto.LoginMemberDto;
 import com.example.ttff.dto.MemberDto;
 import com.example.ttff.dto.TokenInfo;
@@ -31,27 +33,40 @@ public class MemberController {
     // TokenInfo tokenInfo = memberService.login(memberId, password);
     // return tokenInfo;
     // }
+    @PostMapping("/login")
+    public TokenInfo login(@RequestBody LoginMemberDto memberLoginRequestDto) {
+        String memberId = memberLoginRequestDto.getMemberId();
+        String password = memberLoginRequestDto.getPassword();
+        TokenInfo tokenInfo = memberService.login(memberId, password);
+        return tokenInfo;
+    }
 
     // 회원가입
-    @PostMapping("/signup")
+    @RequestMapping(value = "/signup", method = RequestMethod.POST)
     @ResponseStatus(value = HttpStatus.CREATED)
     public MemberDto.Res signup(@RequestBody SignupReq signupReq) {
         return new MemberDto.Res(memberService.signup(signupReq));
     }
 
     // 로그인
-    @PostMapping("/login")
-    public TokenInfo login(@RequestBody LoginMemberDto loginMemberDto) {
-        String memberId = loginMemberDto.getMemberId();
-        String password = loginMemberDto.getPassword();
-        return memberService.login(memberId, password);
-    }
+    // @RequestMapping(value = "/login", method = RequestMethod.POST)
+    // @ResponseStatus(value = HttpStatus.OK)
+    // public TokenInfo login(@RequestBody LoginMemberDto loginMemberDto) {
+    // String memberId = loginMemberDto.getMemberId();
+    // String password = loginMemberDto.getPassword();
+    // return memberService.login(memberId, password);
+    // }
 
     // 사용자 조회
     @GetMapping("/user/{id}")
     @ResponseStatus(value = HttpStatus.OK)
     public MemberDto.Res getUser(@PathVariable final Long id) {
         return new MemberDto.Res(memberService.findById(id));
+    }
+
+    @GetMapping("/member")
+    public Member getMember() {
+        return memberService.getMember();
     }
 
 }

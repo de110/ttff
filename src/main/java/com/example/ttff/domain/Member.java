@@ -21,8 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.ttff.dto.MemberDto.MemberReq;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -111,7 +109,7 @@ public class Member implements UserDetails {
         return true;
     }
 
-    public void updateRegion(MemberReq dto) {
-        this.region = dto.getRegion();
-    }
+    // public void updateRegion(MemberReq dto) {
+    // this.region = dto.getRegion();
+    // }
 }
