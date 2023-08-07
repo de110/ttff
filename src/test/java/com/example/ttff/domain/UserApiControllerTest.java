@@ -1,27 +1,50 @@
 package com.example.ttff.domain;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import java.util.UUID;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 
-import org.json.JSONObject;
-import org.junit.jupiter.api.DisplayName;
+import javax.management.relation.Role;
+
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.BDDMockito.given;
+
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.boot.test.web.server.LocalServerPort;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.test.context.support.WithSecurityContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.ResultActions;
 
 import com.example.ttff.dto.LoginMemberDto;
+import com.example.ttff.dto.MemberDto;
+import com.example.ttff.repository.MemberRepository;
 import com.example.ttff.repository.RegionRepository;
 import com.example.ttff.service.MemberService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jayway.jsonpath.JsonPath;
 
 import lombok.extern.slf4j.Slf4j;
 
@@ -33,81 +56,116 @@ import static org.assertj.core.api.Assertions.assertThat;
 @AutoConfigureMockMvc
 public class UserApiControllerTest {
 
-    @Autowired
-    private MockMvc mvc;
+        @Autowired
+        private MockMvc mvc;
 
-    @LocalServerPort
-    private int port;
+        @LocalServerPort
+        private int port;
 
-    @Autowired
-    private TestRestTemplate restTemplate;
+        @InjectMocks
+        private MemberService memberService;
 
-    @Autowired
-    private RegionRepository regionRepository;
+        @Autowired
+        private RegionRepository regionRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+        private ObjectMapper objectMapper = new ObjectMapper();
 
-    @Test
-    @DisplayName("GET")
-    public void callGetTest() throws Exception {
-        this.mvc.perform(get("/api/user/admin")).andExpect(status().isOk());
-    }
+        @Mock
+        private MemberRepository memberRepository;
 
-    @Test
-    public void signup() throws Exception {
+        @Autowired
+        private PasswordEncoder passwordEncoder;
 
-        String memberId = "admin";
-        String password = "password";
+        @AfterEach
+        void afterEach() {
+                memberRepository.deleteAll();
+        }
 
-        UUID uuid = UUID.randomUUID();
-        // String id = uuid.toString();
+        // 회원 가입
+        private ResultActions requestSignup(MemberDto.SignupReq dto) throws Exception {
+                return mvc.perform(post("/api/signup").contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(dto))).andDo(print());
+        }
 
-        Region region = Region.builder().sidoNm("sido").sigunguNm("sigungu").dongNm("dong").build();
-        regionRepository.save(region);
+        @Value("${jwt.access.header}")
+        private String accessHeader;
 
-        // regionRepository.findBySidoNmAndDongNm("sido", "dong").get();
+        private static final String BEARER = "Bearer ";
 
-        Member member = Member.builder().memberId(memberId).password(password).region(region).uid(uuid).build();
+        // access Token
+        private String getAccessToken() throws Exception {
+                LoginMemberDto loginMemberDto = LoginMemberDto.builder()
+                                .memberId("test").password("test")
+                                .build();
+                MvcResult result = mvc.perform(
+                                post("/api/login")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(objectMapper.writeValueAsString(loginMemberDto)))
+                                .andExpect(status().isOk()).andReturn();
+                log.info("result: " + result.getResponse().getContentAsString());
+                String response = result.getResponse().getContentAsString();
+                return JsonPath.parse(response).read("$.accessToken");
+        }
 
-        String url = "http://localhost:" + port + "/api/signup";
+        @Test
+        public void login() throws Exception {
+                LoginMemberDto loginMemberDto = LoginMemberDto.builder()
+                                .memberId("test")
+                                .password("test")
+                                .build();
+                ResultActions result = mvc.perform(
+                                post("/api/login")
+                                                .contentType(MediaType.APPLICATION_JSON)
+                                                .content(objectMapper.writeValueAsString(loginMemberDto)));
 
-        ResponseEntity<Member> responseEntity = restTemplate.postForEntity(url,
-                member,
-                Member.class);
+                result.andExpect(status().isOk()).andDo(print());
+        }
 
-        // then
-        assertThat(responseEntity.getStatusCode());
-    }
+        // 테스트용 사용자 정보
+        public MemberDto.SignupReq buildSignupReq() {
+                Region region = regionRepository.findById(1L).get();
+                return MemberDto.SignupReq.builder()
+                                .memberId("testmember")
+                                .password("tpassword")
+                                .email("temail")
+                                .name("tname")
+                                .region(region)
+                                .build();
+        }
 
-    @Test
-    public void login() throws Exception {
+        // 지역 정보 사전 설정
+        @BeforeEach
+        public void setRegion() {
+                Region testRegion = Region.builder()
+                                .dongNm("t_dongNm")
+                                .build();
+                regionRepository.save(testRegion);
+        }
 
-        // given
-        String memberId = "admin";
-        String password = "password";
+        @Test
+        public void signup() throws Exception {
+                // given
+                final MemberDto.SignupReq signupReq = buildSignupReq();
 
-        String url = "http://localhost:" + port + "/api/login";
+                // when
+                ResultActions resultActions = requestSignup(signupReq);
 
-        LoginMemberDto member = LoginMemberDto.builder().memberId(memberId).password(password).build();
+                // then
+                resultActions
+                                .andExpect(status().isCreated())
+                                .andExpect(jsonPath("$.memberId", is(signupReq.getMemberId())));
+        }
 
-        ResponseEntity<Member> responseEntity = restTemplate.postForEntity(url,
-                member,
-                Member.class);
+        @Test
+        public void getUserInfo() throws Exception {
+                String accessToken = getAccessToken();
+                log.info("accessToken" + accessToken);
+                ResultActions result = mvc.perform(
+                                get("/api/member")
+                                                .characterEncoding(StandardCharsets.UTF_8)
+                                                .header(accessHeader, BEARER + accessToken))
+                                .andDo(print());
+                result.andExpect(status().isOk()).andReturn();
 
-        // when
-        // memberService.login(memberId, password);
-
-        // then
-        assertThat(passwordEncoder.matches("password", passwordEncoder.encode(password)));
-    }
-
-    @Test
-    public void getTest() throws Exception {
-        String url = "http://localhost:" + port + "/api/user/admin";
-        MvcResult result = mvc.perform(get(url)).andReturn();
-        JSONObject response = new JSONObject(result.getResponse().getContentAsString());
-        assertThat(response);
-    }
-
+        }
 }
