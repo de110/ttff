@@ -10,9 +10,11 @@ import com.example.ttff.domain.Member;
 import com.example.ttff.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
 @RequiredArgsConstructor
+@Slf4j
 public class CustomUserDetailsService implements UserDetailsService {
 
     private final MemberRepository userRepository;
@@ -29,7 +31,7 @@ public class CustomUserDetailsService implements UserDetailsService {
         return User.builder()
                 .username(member.getMemberId())
                 .password(member.getPassword())
-                .roles(member.getRoles().toArray(new String[0]))
+                .roles(member.getRoles().toString())
                 .build();
     }
 }

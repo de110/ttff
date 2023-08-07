@@ -48,15 +48,6 @@ public class MemberController {
         return new MemberDto.Res(memberService.signup(signupReq));
     }
 
-    // 로그인
-    // @RequestMapping(value = "/login", method = RequestMethod.POST)
-    // @ResponseStatus(value = HttpStatus.OK)
-    // public TokenInfo login(@RequestBody LoginMemberDto loginMemberDto) {
-    // String memberId = loginMemberDto.getMemberId();
-    // String password = loginMemberDto.getPassword();
-    // return memberService.login(memberId, password);
-    // }
-
     // 사용자 조회
     @GetMapping("/user/{id}")
     @ResponseStatus(value = HttpStatus.OK)
@@ -65,7 +56,7 @@ public class MemberController {
     }
 
     @GetMapping("/member")
-    public Member getMember() {
+    public String getMember() {
         return memberService.getMember();
     }
 

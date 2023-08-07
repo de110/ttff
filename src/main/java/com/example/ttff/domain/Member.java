@@ -21,6 +21,8 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.example.ttff.dto.MemberDto;
+
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
