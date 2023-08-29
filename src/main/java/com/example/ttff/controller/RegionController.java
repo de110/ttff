@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.ttff.domain.Region;
 import com.example.ttff.domain.Member;
 import com.example.ttff.repository.RegionRepository;
-import com.example.ttff.repository.MemberRepository;
+import com.example.ttff.service.RegionService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -21,22 +21,22 @@ import lombok.RequiredArgsConstructor;
 @RequestMapping("/api")
 public class RegionController {
 
-    private final MemberRepository memberRepository;
     private final RegionRepository regionRepository;
+    private final RegionService regionService;
 
     @GetMapping("/regions")
     public List<Region> getDongList() {
-        return regionRepository.findAll();
+        return regionService.getDongList();
     }
 
     @GetMapping("/regions/si") // 중복 처리
     public List<String> getSi() {
-        return regionRepository.selectSidoName();
+        return regionService.getSi();
     }
 
     @GetMapping("/regions/gun")
     public List<String> getGun(@RequestParam String sido) {
-        return regionRepository.selectSigunguName(sido); // 중복 처리
+        return regionService.getGun(sido); // 중복 처리
     }
 
     @GetMapping("/regions/dong")
@@ -45,19 +45,12 @@ public class RegionController {
     }
 
     @GetMapping("/region")
-    public Region gList(@RequestParam String id) {
-        Member member = memberRepository.findByMemberId(id).get();
-        return member.getRegion();
+    public Region getList(@RequestParam String id) {
+        return regionService.getMemberRegion(id);
     }
 
-    @PatchMapping("/user/{userId}")
-    public Member updateRegion(@PathVariable String userId, @RequestBody Member member) {
-        Region r = regionRepository.findBySidoNmAndDongNm(member.getRegion().getSidoNm(),
-                member.getRegion().getDongNm()).get();
-
-        Member member2 = memberRepository.findByMemberId(userId).get();
-        member2.setRegion(r);
-        memberRepository.save(member2);
-        return member2;
+    @PatchMapping("/member/{memberId}")
+    public Member updateMemberRegion(@PathVariable String memberId, @RequestBody Member member) {
+        return regionService.updateMemberRegion(memberId, member);
     }
 }
