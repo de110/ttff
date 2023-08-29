@@ -8,6 +8,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,7 +33,7 @@ public class BoardController {
 
     // 전체 게시글 조회
     @ResponseStatus(value = HttpStatus.OK)
-    @GetMapping("/boards")
+    @RequestMapping(method = RequestMethod.GET, path = "/boards")
     public List<BoardDto.Res> getAllPosts() {
         return boardService.findAllPosts();
     }
@@ -40,6 +43,13 @@ public class BoardController {
     @GetMapping("/{type}")
     public List<BoardDto.Res> getPostsByCategory(@PathVariable String type) {
         return boardService.findByCategory(type);
+    }
+
+    // 선택한 동 기준 게시글 검색
+    @ResponseStatus(value = HttpStatus.OK)
+    @RequestMapping(method = RequestMethod.GET, path = "/boards", params = "dongNm")
+    public List<BoardDto.Res> getPostsByRegion(@RequestParam String dongNm) {
+        return boardService.findByRegion(dongNm);
     }
 
     // 게시글 선택

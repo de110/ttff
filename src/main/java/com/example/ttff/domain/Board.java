@@ -7,7 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-// import javax.persistence.OneToOne;
+
+import com.example.ttff.dto.BoardDto;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -40,20 +41,28 @@ public class Board extends BaseTimeEntity {
     @JoinColumn
     private Member member;
 
-    // @OneToOne
-    // @JoinColumn
-    // private Region region;
+    private String dongNm;
 
     @Builder
     public Board(String title, String content, String category, String startDate,
-            String endDate, Member member) {
+            String endDate, Member member, String dongNm) {
         this.title = title;
         this.content = content;
         this.category = category;
         this.startDate = startDate;
         this.endDate = endDate;
         this.member = member;
-        // this.region = region;
+        this.dongNm = dongNm;
+    }
+
+    // 게시글 생성
+    public static Board createPost(BoardDto board, Member member) {
+        return Board.builder()
+                .title(board.getTitle())
+                .content(board.getContent())
+                .member(member)
+                .dongNm(member.getRegion().getDongNm())
+                .build();
     }
 
 }

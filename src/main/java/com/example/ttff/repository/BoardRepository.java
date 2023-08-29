@@ -12,6 +12,8 @@ public interface BoardRepository extends JpaRepository<Board, Long> {
 
     Optional<Board> findByTitle(String title);
 
+    List<Board> findByDongNm(String dongNm);
+
     void deleteById(Long id);
 
 }

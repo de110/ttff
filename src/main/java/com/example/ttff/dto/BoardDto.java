@@ -1,6 +1,7 @@
 package com.example.ttff.dto;
 
 import com.example.ttff.domain.Board;
+
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,14 +25,12 @@ public class BoardDto {
         this.endDate = endDate;
     }
 
-    public Board toEntity() {
-        return Board.builder()
-                .title(title)
-                .content(content)
-                .category(category)
-                .startDate(startDate)
-                .endDate(endDate)
-                .build();
+    @Getter
+    public static class CreatePostDto {
+        private String title;
+        private String content;
+        private String category;
+
     }
 
     @Getter
