@@ -3,6 +3,11 @@ package com.example.ttff.dto;
 import java.util.Collections;
 import java.util.UUID;
 
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Size;
+
 import com.example.ttff.domain.Member;
 import com.example.ttff.domain.Region;
 
@@ -15,10 +20,21 @@ public class MemberDto {
     @Getter
     @NoArgsConstructor
     public static class SignupReq {
+
+        @NotBlank(message = "아이디를 입력해주세요")
+        @Size(min = 2, max = 10, message = "아이디는 2자 이상 10자 이하여야 합니다.")
         private String memberId;
+
+        @NotBlank(message = "비밀번호를 입력해주세요")
         private String password;
+
+        @NotBlank(message = "이메일을 입력해주세요")
+        @Email
         private String email;
+
+        @NotEmpty(message = "이름을 입력해주세요")
         private String name;
+
         private Region region;
 
         @Builder

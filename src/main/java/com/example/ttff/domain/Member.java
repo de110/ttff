@@ -21,8 +21,6 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.ttff.dto.MemberDto;
-
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -49,10 +47,10 @@ public class Member implements UserDetails {
     @Column(nullable = false)
     private String password;
 
-    @Column
+    @Column(nullable = false)
     private String name;
 
-    @Column
+    @Column(nullable = false)
     private String email;
 
     @ElementCollection(fetch = FetchType.EAGER)
@@ -110,8 +108,4 @@ public class Member implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
-
-    // public void updateRegion(MemberReq dto) {
-    // this.region = dto.getRegion();
-    // }
 }
