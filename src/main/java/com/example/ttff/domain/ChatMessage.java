@@ -11,7 +11,9 @@ import javax.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@Setter
 @Getter
 @NoArgsConstructor
 @Entity
@@ -30,22 +32,18 @@ public class ChatMessage {
 
     @Column
     private String roomId;
-    // 보내는 사람
-    // @Column
-    // private String sender;
 
     @JoinColumn(name = "sender")
     @OneToOne
-    private Member sender;
+    private Member member;
 
-    // 내용
     @Column
     private String message;
 
     @Builder
-    public ChatMessage(String roomId, Member sender, String message) {
+    public ChatMessage(String roomId, Member member, String message) {
         this.roomId = roomId;
-        this.sender = sender;
+        this.member = member;
         this.message = message;
     }
 

@@ -25,7 +25,7 @@ public class Study {
     @ManyToOne
     private Member member;
 
-    @Column(name = "title")
+    @Column(name = "title", unique = true)
     private String title;
 
     @Builder

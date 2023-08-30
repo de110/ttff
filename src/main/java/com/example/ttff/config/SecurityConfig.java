@@ -39,20 +39,6 @@ public class SecurityConfig {
                 .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
                         UsernamePasswordAuthenticationFilter.class);
         return http.build();
-        // http.cors().and()
-        // .httpBasic().disable()
-        // .csrf(AbstractHttpConfigurer::disable)
-        // .sessionManagement(management ->
-        // management.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-        // .authorizeHttpRequests(authorize -> authorize
-        // .antMatchers("/api/login", "/api/member", "/api/signup").permitAll()
-        // .anyRequest().authenticated())
-        // .headers(headers -> headers.addHeaderWriter(
-        // new
-        // XFrameOptionsHeaderWriter(XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
-        // .addFilterBefore(new JwtAuthenticationFilter(jwtTokenProvider),
-        // UsernamePasswordAuthenticationFilter.class);
-        // return http.build();
     }
 
     @Bean

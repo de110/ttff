@@ -31,9 +31,9 @@ public class MessageController {
     @MessageMapping("/chat/message")
     public ChatMessage enter(@RequestBody ChatMessage message) {
         if (ChatMessage.MessageType.ENTER.equals(message.getType())) {
-            message.setMessage(message.getSender() + "님이 입장하였습니다.");
+            message.setMessage(message.getMember() + "님이 입장하였습니다.");
         }
-        log.info("user name: {}", message.getSender().getUsername());
+        log.info("user name: {}", message.getMember().getUsername());
         sendingOperations.convertAndSend("/sub/chat/room/" + message.getRoomId(),
                 message);
         return chatService.saveMessage(message);

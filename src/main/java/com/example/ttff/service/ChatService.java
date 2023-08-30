@@ -13,10 +13,8 @@ import com.example.ttff.repository.MessageRepository;
 import com.example.ttff.repository.MemberRepository;
 
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 
 @Service
-@Slf4j
 @RequiredArgsConstructor
 public class ChatService {
 
@@ -46,7 +44,6 @@ public class ChatService {
     @Transactional
     public ChatRoom create(ChatRoom chatRoom) {
         validateDuplicateChatRoom(chatRoom);
-        // chatRoom.setGuest(chatRoom.getGuest());
         chatRepository.save(chatRoom);
         return chatRoom;
     }
@@ -54,7 +51,6 @@ public class ChatService {
     // 채팅방 중복 검사
     public void validateDuplicateChatRoom(ChatRoom chatRoom) {
         Boolean findChatRoom = chatRepository.existsByRoomName(chatRoom.getRoomName());
-        log.info("find: {}", findChatRoom);
         if (findChatRoom == true) {
             throw new IllegalStateException("exist");
         }
@@ -62,13 +58,9 @@ public class ChatService {
 
     @Transactional
     public ChatMessage saveMessage(ChatMessage chatMessage) {
-        // ChatMessage chatMessage = new ChatMessage();
-        // chatRooms.put(chatRoom.getRoomId(), chatMessage);
-        String username = chatMessage.getSender().getMemberId();
+        String username = chatMessage.getMember().getMemberId();
         Member member = memberRepository.findByMemberId(username).get();
-        chatMessage.setSender(member);
-        // chatMessage.setRoomId(chatMessage.getRoomId());
-        log.info("msg: {}", chatMessage);
+        chatMessage.setMember(member);
         return messageRepository.save(chatMessage);
     }
 

@@ -19,6 +19,7 @@ import static org.mockito.BDDMockito.given;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -76,10 +77,10 @@ public class UserApiControllerTest {
         @Autowired
         private PasswordEncoder passwordEncoder;
 
-        @AfterEach
-        void afterEach() {
-                memberRepository.deleteAll();
-        }
+        // @AfterEach
+        // void afterEach() {
+        // memberRepository.deleteAll();
+        // }
 
         // 회원 가입
         private ResultActions requestSignup(MemberDto.SignupReq dto) throws Exception {
@@ -125,19 +126,19 @@ public class UserApiControllerTest {
         public MemberDto.SignupReq buildSignupReq() {
                 Region region = regionRepository.findById(1L).get();
                 return MemberDto.SignupReq.builder()
-                                .memberId("testmember")
-                                .password("tpassword")
-                                .email("temail")
-                                .name("tname")
+                                .memberId("test")
+                                .password("test")
+                                .email("email")
+                                .name("name")
                                 .region(region)
                                 .build();
         }
 
         // 지역 정보 사전 설정
-        @BeforeEach
+        @Test
         public void setRegion() {
                 Region testRegion = Region.builder()
-                                .dongNm("t_dongNm")
+                                .dongNm("dongNm")
                                 .build();
                 regionRepository.save(testRegion);
         }
@@ -154,6 +155,26 @@ public class UserApiControllerTest {
                 resultActions
                                 .andExpect(status().isCreated())
                                 .andExpect(jsonPath("$.memberId", is(signupReq.getMemberId())));
+        }
+
+        @DisplayName("아이디 공백 에러 발생")
+        @Test
+        public void signup_fail_memberId_isBlank() throws Exception {
+                // given
+                Region region = regionRepository.findById(1L).get();
+                final MemberDto.SignupReq signupReq = MemberDto.SignupReq.builder()
+                                .memberId(" ")
+                                .password("test")
+                                .email("email")
+                                .name("name")
+                                .region(region)
+                                .build();
+
+                // when
+                ResultActions resultActions = requestSignup(signupReq);
+
+                // then
+                resultActions.andExpect(status().isBadRequest());
         }
 
         @Test

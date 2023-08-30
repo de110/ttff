@@ -1,6 +1,7 @@
 package com.example.ttff.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,6 +16,8 @@ public interface StudyMemberRepository extends JpaRepository<Study, Long> {
     List<Study> findByMember(Member member);
 
     Boolean existsByMember(Member member);
+
+    Optional<Study> findByTitle(String title);
 
     // List<StudyMember> findDistinctByTitle(String name);
 }
