@@ -60,4 +60,3 @@
 | 멤버 검색 | GET | /members | memberId |
 
 ### ERD
-![ttff_erd](https://user-images.githubusercontent.com/67581448/233938380-81f7c0ab-48bd-4577-ad0f-50d7582a7e21.png)
